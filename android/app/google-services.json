@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "415908129222",
+    "project_id": "mppo-app",
+    "storage_bucket": "mppo-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415908129222:android:853858b0e9e65c7650aac7",
+        "android_client_info": {
+          "package_name": "com.proman2702.mppo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAw5pRVY5fKnNTOQitrOqEnlUJEz3dquc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
