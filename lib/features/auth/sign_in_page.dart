@@ -92,6 +92,7 @@ class _FirstPageState extends State<FirstPage> {
                         ],
                       ),
                     ),
+                    SizedBox(height: height / 10),
                     Center(
                       child: SizedBox(
                         height: 80,
@@ -117,7 +118,7 @@ class _FirstPageState extends State<FirstPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: height / 18),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
@@ -131,7 +132,7 @@ class _FirstPageState extends State<FirstPage> {
                         ],
                       ),
                       width: 375,
-                      height: 350,
+                      height: 375,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -184,7 +185,7 @@ class _FirstPageState extends State<FirstPage> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 10),
                           SizedBox(
                             width: 300,
                             child: Text(
@@ -234,21 +235,29 @@ class _FirstPageState extends State<FirstPage> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          const Text(
-                            "Пароль:",
-                            style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
+                          SizedBox(
+                            width: 300,
+                            child: Text(
+                              "Пароль:",
+                              style:
+                                  TextStyle(color: Color(CustomColors.main), fontSize: 15, fontWeight: FontWeight.w700),
+                            ),
                           ),
                           Container(
                             height: 45,
                             width: 295,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(color: Color(CustomColors.main), width: 5),
+                              color: Colors.white,
+                            ),
                             child: Row(
                               children: [
                                 const SizedBox(width: 8),
                                 Icon(Icons.key_outlined, size: 24, color: Color(CustomColors.bright)),
                                 const SizedBox(width: 8),
                                 SizedBox(
-                                  width: 210,
+                                  width: 200,
                                   height: 40,
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
@@ -273,51 +282,52 @@ class _FirstPageState extends State<FirstPage> {
                                   ),
                                 ),
                                 IconButton(
-                                    iconSize: 20,
-                                    visualDensity: VisualDensity.compact,
-                                    onPressed: () => setState(() {
-                                          obscureBool = !obscureBool;
-                                        }),
-                                    icon:
-                                        !obscureBool ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off))
+                                  iconSize: 20,
+                                  visualDensity: VisualDensity.compact,
+                                  onPressed: () => setState(() {
+                                    obscureBool = !obscureBool;
+                                  }),
+                                  icon: !obscureBool ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+                                ),
                               ],
                             ),
                           ),
+                          SizedBox(height: 60),
+                          Container(
+                            height: 40,
+                            width: 180,
+                            decoration: BoxDecoration(
+                                gradient: ButtonGrad(),
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: const [
+                                  BoxShadow(spreadRadius: 1, offset: Offset(0, 2), blurRadius: 2, color: Colors.black26)
+                                ]),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                              ),
+                              onPressed: () async {
+                                if (username == null || password == null) {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) => const AuthDenySheet(type: "none"));
+                                } else if (username!.length < 4 || password!.length < 4) {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) => const AuthDenySheet(type: "length"));
+                                } else {
+                                  log("Логин: $username, пароль: $password");
+                                  signUp(email!, password!);
+                                }
+                              },
+                              child: const Text(
+                                "Создать",
+                                style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                          ),
                         ],
-                      ),
-                    ),
-                    SizedBox(height: (height - width) > 0 ? height / 11 : height / 18),
-                    Container(
-                      height: 40,
-                      width: 180,
-                      decoration: BoxDecoration(
-                          gradient: ButtonGrad(),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(spreadRadius: 1, offset: Offset(0, 2), blurRadius: 2, color: Colors.black26)
-                          ]),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                        ),
-                        onPressed: () async {
-                          if (username == null || password == null) {
-                            showModalBottomSheet(
-                                context: context, builder: (BuildContext context) => const AuthDenySheet(type: "none"));
-                          } else if (username!.length < 4 || password!.length < 4) {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) => const AuthDenySheet(type: "length"));
-                          } else {
-                            log("Логин: $username, пароль: $password");
-                            signUp(email!, password!);
-                          }
-                        },
-                        child: const Text(
-                          "Создать",
-                          style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),
-                        ),
                       ),
                     ),
                   ],

@@ -50,6 +50,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ],
                   ),
                 ),
+                SizedBox(height: height / 10),
                 Center(
                   child: SizedBox(
                     height: 150,
@@ -75,7 +76,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: height / 20),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
