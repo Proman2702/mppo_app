@@ -1,5 +1,5 @@
 class CustomColors {
-  final List<int> backgroundGrad = [0xFFCFB5D6, 0xFF4E0F69];
+  final List<int> backgroundGrad = [0xFF32E474, 0xff38CACF];
   final List<int> drawerGrad = [0xFFCCAAD4, 0xFFB68FBF, 0xFF613974];
   final List<int> tileGrad1 = [0xFF633D9D, 0xffD192BE];
   final List<int> tileGrad2 = [0xFFD3B1D9, 0xFF5E1E8D];
@@ -7,10 +7,11 @@ class CustomColors {
   final List<int> buttonGrad = [0xFF9951F8, 0xFF5B1587];
   final List<int> greyTile = [0xFF725C77, 0xFFDBB1DA];
 
-  static int main = 0xff6B3C7A;
-  static int mainLight = 0xFF7B5488;
-  static int mainLightX2 = 0xDDE9C1E9;
+  static int mainLight = 0xFFB4B4B4;
+  static int background = 0xFFF8F8F8;
   static int bright = 0xff7021A7;
+  static int main = 0xFF52D5A7;
+
   static int white = 0xffffffff;
   static int shadow = 0xffd9d9d9;
   static int dialogBack = 0xffefd8ec;
