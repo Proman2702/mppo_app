@@ -117,8 +117,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             Icon(Icons.mail_outline, size: 24, color: Color(CustomColors.bright)),
                             const SizedBox(width: 8),
                             SizedBox(
-                              width: 205,
-                              height: 40,
+                              width: 235,
+                              height: 45,
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: ConstrainedBox(
@@ -127,7 +127,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w700, fontSize: 16, color: Colors.black87),
                                     maxLength: 40,
-                                    onChanged: (value) => setState(() {}),
+                                    onChanged: (value) => setState(() {
+                                      email = value;
+                                    }),
                                     decoration: const InputDecoration(
                                       floatingLabelBehavior: FloatingLabelBehavior.never,
                                       contentPadding: EdgeInsets.only(bottom: 17),

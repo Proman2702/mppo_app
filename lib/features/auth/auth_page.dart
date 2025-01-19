@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/etc/colors/gradients/tiles.dart';
+import 'package:mppo_app/features/auth/auth_error_hander.dart';
+import 'package:mppo_app/repositories/auth/auth_service.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -16,6 +18,36 @@ class _AuthPageState extends State<AuthPage> {
   bool obscureBool = true;
   String? username;
   String? password;
+  AuthService auth = AuthService();
+
+  void signIn(String em, String p) async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Color(CustomColors.mainLight)),
+            ),
+          );
+        });
+
+    final List user = await auth.loginUserWithEmailAndPassword(em, p);
+    Navigator.pop(context);
+    Navigator.of(context).pushNamed('/');
+
+    if (user[0] == 0) {
+      if (user[1].emailVerified) {
+        log(user[1].emailVerified.toString());
+        log("Успешный вход");
+      } else {
+        showModalBottomSheet(context: context, builder: (BuildContext context) => AuthDenySheet(type: "verify"));
+      }
+    } else if (user[0] == 1) {
+      log("Ошибка ${user[1]}");
+
+      showModalBottomSheet(context: context, builder: (BuildContext context) => AuthDenySheet(type: user[1]));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +138,7 @@ class _AuthPageState extends State<AuthPage> {
                                 Icon(Icons.mail_outline, size: 24, color: Color(CustomColors.bright)),
                                 const SizedBox(width: 8),
                                 SizedBox(
-                                  width: 205,
+                                  width: 235,
                                   height: 40,
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
@@ -116,7 +148,9 @@ class _AuthPageState extends State<AuthPage> {
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w700, fontSize: 16, color: Colors.black87),
                                         maxLength: 40,
-                                        onChanged: (value) => setState(() {}),
+                                        onChanged: (value) => setState(() {
+                                          username = value;
+                                        }),
                                         decoration: const InputDecoration(
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
                                           contentPadding: EdgeInsets.only(bottom: 17),
@@ -227,14 +261,16 @@ class _AuthPageState extends State<AuthPage> {
                                   backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
                               onPressed: () async {
                                 if (username == null || password == null) {
-                                  //showModalBottomSheet(
-                                  //context: context, builder: (BuildContext context) => const AuthDenySheet(type: "none"));
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) => const AuthDenySheet(type: "none"));
                                 } else if (username!.length < 4 || password!.length < 4) {
-                                  //showModalBottomSheet(
-                                  //context: context, builder: (BuildContext context) => AuthDenySheet(type: "length"));
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) => AuthDenySheet(type: "length"));
                                 } else {
                                   log("Логин: $username, пароль: $password");
-                                  //signIn(username!, password!);
+                                  signIn(username!, password!);
                                 }
                               },
                               child: const Text(
