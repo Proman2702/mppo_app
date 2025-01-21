@@ -5,14 +5,14 @@ import 'package:mppo_app/repositories/auth/auth_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HelpPage extends StatefulWidget {
+  const HelpPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HelpPage> createState() => _HelpPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HelpPageState extends State<HelpPage> {
   AuthService auth = AuthService();
 
   @override
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                       decoration: BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
-                        color: Color(CustomColors.bright),
+                        color: Colors.transparent,
                         width: 2.0, // Underline thickness
                       ))),
                       child: Text(
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                       decoration: BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
-                        color: Colors.transparent,
+                        color: Color(CustomColors.bright),
                         width: 2.0, // Underline thickness
                       ))),
                       child: Text(
@@ -122,12 +122,6 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Text("бурда"),
-            ElevatedButton(
-                onPressed: () async {
-                  await auth.signOut();
-                  setState(() {});
-                },
-                child: Text('Разлогинься'))
           ],
         ),
       ),

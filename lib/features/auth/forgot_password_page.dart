@@ -50,10 +50,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: height / 10),
+                SizedBox(height: height / 20),
                 Center(
                   child: SizedBox(
-                    height: 150,
+                    height: 120,
                     width: 450,
                     child: Text(
                       "Восстановление пароля",
@@ -76,7 +76,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: height / 20),
+                SizedBox(height: height / 15),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -204,7 +204,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 150),
+                SizedBox(height: 100),
               ],
             ),
           ),

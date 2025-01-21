@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' as math;
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/etc/colors/gradients/tiles.dart';
@@ -68,7 +67,8 @@ class _FirstPageState extends State<FirstPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
-    double width = size.width;
+
+    //double width = size.width;
 
     return Container(
       decoration: BoxDecoration(gradient: BackgroundGrad()),
@@ -92,10 +92,10 @@ class _FirstPageState extends State<FirstPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: height / 10),
-                    Center(
+                    SizedBox(height: height / 20),
+                    const Center(
                       child: SizedBox(
-                        height: 80,
+                        height: 60,
                         width: 450,
                         child: Text(
                           "Регистрация",
@@ -118,7 +118,7 @@ class _FirstPageState extends State<FirstPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: height / 18),
+                    SizedBox(height: height / 15),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
@@ -330,6 +330,7 @@ class _FirstPageState extends State<FirstPage> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 100),
                   ],
                 ),
               ),
