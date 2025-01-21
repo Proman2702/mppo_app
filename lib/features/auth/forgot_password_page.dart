@@ -125,14 +125,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   constraints: const BoxConstraints.expand(width: 600), // 18 - fontSize
                                   child: TextField(
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.w700, fontSize: 16, color: Colors.black87),
+                                        fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
                                     maxLength: 40,
                                     onChanged: (value) => setState(() {
                                       email = value;
                                     }),
                                     decoration: const InputDecoration(
                                       floatingLabelBehavior: FloatingLabelBehavior.never,
-                                      contentPadding: EdgeInsets.only(bottom: 17),
+                                      contentPadding: EdgeInsets.only(bottom: 15),
                                       counterText: "",
                                       border: InputBorder.none,
                                       labelText: "Почта",

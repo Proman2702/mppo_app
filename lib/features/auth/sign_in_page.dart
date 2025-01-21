@@ -167,14 +167,14 @@ class _FirstPageState extends State<FirstPage> {
                                       constraints: BoxConstraints.expand(width: AuthSettings().maxUsernameLength * 18),
                                       child: TextField(
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
+                                            fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
                                         maxLength: AuthSettings().maxUsernameLength,
                                         onChanged: (value) => setState(() {
                                           username = value;
                                         }),
                                         decoration: const InputDecoration(
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
-                                          contentPadding: EdgeInsets.only(bottom: 18),
+                                          contentPadding: EdgeInsets.only(bottom: 15),
                                           counterText: "",
                                           border: InputBorder.none,
                                         ),
@@ -188,11 +188,9 @@ class _FirstPageState extends State<FirstPage> {
                           const SizedBox(height: 10),
                           SizedBox(
                             width: 300,
-                            child: Text(
-                              "Ваша почта:",
-                              style:
-                                  TextStyle(color: Color(CustomColors.main), fontSize: 15, fontWeight: FontWeight.w700),
-                            ),
+                            child: Text("Ваша почта:",
+                                style: TextStyle(
+                                    color: Color(CustomColors.main), fontSize: 15, fontWeight: FontWeight.w700)),
                           ),
                           Container(
                             height: 45,
@@ -216,14 +214,14 @@ class _FirstPageState extends State<FirstPage> {
                                       constraints: BoxConstraints.expand(width: AuthSettings().maxEmailLength * 18),
                                       child: TextField(
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
+                                            fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
                                         maxLength: AuthSettings().maxEmailLength,
                                         onChanged: (value) => setState(() {
                                           email = value;
                                         }),
                                         decoration: const InputDecoration(
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
-                                          contentPadding: EdgeInsets.only(bottom: 18),
+                                          contentPadding: EdgeInsets.only(bottom: 15),
                                           counterText: "",
                                           border: InputBorder.none,
                                         ),
@@ -266,14 +264,14 @@ class _FirstPageState extends State<FirstPage> {
                                       child: TextField(
                                         obscureText: obscureBool,
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
+                                            fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
                                         maxLength: AuthSettings().maxPasswordLength,
                                         onChanged: (value) => setState(() {
                                           password = value;
                                         }),
                                         decoration: const InputDecoration(
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
-                                          contentPadding: EdgeInsets.only(bottom: 12),
+                                          contentPadding: EdgeInsets.only(bottom: 15),
                                           counterText: "",
                                           border: InputBorder.none,
                                         ),
@@ -292,7 +290,7 @@ class _FirstPageState extends State<FirstPage> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 60),
+                          const SizedBox(height: 60),
                           Container(
                             height: 40,
                             width: 180,

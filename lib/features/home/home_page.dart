@@ -119,16 +119,28 @@ class _HomePageState extends State<HomePage> {
             ],
           )),
       body: Center(
-        child: Column(
-          children: [
-            Text("бурда"),
-            ElevatedButton(
-                onPressed: () async {
-                  await auth.signOut();
-                  setState(() {});
-                },
-                child: Text('Разлогинься'))
-          ],
+        child: SingleChildScrollView(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 60),
+                child: Container(
+                  decoration: BoxDecoration(color: Color(CustomColors.shadow), borderRadius: BorderRadius.circular(15)),
+                  height: 570,
+                  width: 360,
+                ),
+              ),
+              Container(
+                child: ElevatedButton(
+                    onPressed: () async {
+                      await auth.signOut();
+                      setState(() {});
+                    },
+                    child: Text('Разлогинься')),
+              )
+            ],
+          ),
         ),
       ),
     );

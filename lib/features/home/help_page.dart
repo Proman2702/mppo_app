@@ -48,7 +48,7 @@ class _HelpPageState extends State<HelpPage> {
                         ),
                       ],
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     GradientText(
                       "NoteAI",
                       colors: [Color(0xff38CACF), Color(0xFF32E474)],
@@ -68,15 +68,9 @@ class _HelpPageState extends State<HelpPage> {
                   GestureDetector(
                     onTap: () => Navigator.of(context).pushNamed('/'),
                     child: Container(
-                      padding: EdgeInsets.only(
-                        bottom: 5, // Space between underline and text
-                      ),
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                        color: Colors.transparent,
-                        width: 2.0, // Underline thickness
-                      ))),
+                      padding: EdgeInsets.only(bottom: 5),
+                      decoration:
+                          BoxDecoration(border: Border(bottom: BorderSide(color: Colors.transparent, width: 2.0))),
                       child: Text(
                         "Загрузить",
                         style: TextStyle(color: Color(CustomColors.bright), fontSize: 23, fontWeight: FontWeight.w600),
@@ -91,15 +85,9 @@ class _HelpPageState extends State<HelpPage> {
                   GestureDetector(
                     onTap: () => Navigator.of(context).pushNamed('/help'),
                     child: Container(
-                      padding: EdgeInsets.only(
-                        bottom: 5, // Space between underline and text
-                      ),
+                      padding: const EdgeInsets.only(bottom: 5),
                       decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                        color: Color(CustomColors.bright),
-                        width: 2.0, // Underline thickness
-                      ))),
+                          border: Border(bottom: BorderSide(color: Color(CustomColors.bright), width: 2.0))),
                       child: Text(
                         "Помощь",
                         style: TextStyle(color: Color(CustomColors.bright), fontSize: 23, fontWeight: FontWeight.w600),
@@ -118,11 +106,22 @@ class _HelpPageState extends State<HelpPage> {
               SizedBox(width: 30)
             ],
           )),
-      body: Center(
-        child: Column(
-          children: [
-            Text("бурда"),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 100),
+              GradientText(
+                'Хрен вам а не помощь',
+                colors: [
+                  Color.fromARGB(255, 0, 255, 42),
+                  Color.fromARGB(255, 255, 0, 132),
+                  Color.fromARGB(255, 136, 0, 255)
+                ],
+                style: TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
         ),
       ),
     );

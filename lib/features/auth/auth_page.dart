@@ -143,17 +143,17 @@ class _AuthPageState extends State<AuthPage> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: ConstrainedBox(
-                                      constraints: const BoxConstraints.expand(width: 600), // 18 - fontSize
+                                      constraints: const BoxConstraints.expand(width: 600),
                                       child: TextField(
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.w700, fontSize: 16, color: Colors.black87),
-                                        maxLength: 40,
+                                            fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
+                                        maxLength: 30,
                                         onChanged: (value) => setState(() {
                                           username = value;
                                         }),
                                         decoration: const InputDecoration(
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
-                                          contentPadding: EdgeInsets.only(bottom: 17),
+                                          contentPadding: EdgeInsets.only(bottom: 15),
                                           counterText: "",
                                           border: InputBorder.none,
                                           labelText: "Почта",
@@ -194,14 +194,14 @@ class _AuthPageState extends State<AuthPage> {
                                       child: TextField(
                                         obscureText: obscureBool,
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.w700, fontSize: 16, color: Colors.black87),
+                                            fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
                                         maxLength: 30,
                                         onChanged: (value) => setState(() {
                                           password = value;
                                         }),
                                         decoration: const InputDecoration(
                                           floatingLabelBehavior: FloatingLabelBehavior.never,
-                                          contentPadding: EdgeInsets.only(bottom: 17),
+                                          contentPadding: EdgeInsets.only(bottom: 15),
                                           counterText: "",
                                           border: InputBorder.none,
                                           labelText: "Пароль",
