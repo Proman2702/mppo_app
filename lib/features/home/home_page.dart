@@ -351,7 +351,7 @@ class _HomePageState extends State<HomePage> {
                               log('Название - $_name, кол-во - $_count');
                             },
                             child: Text('Сохранить',
-                                style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+                                style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                           ))
                     ],
                   ),
