@@ -257,6 +257,24 @@ class _HomePageState extends State<HomePage> {
                               style: ElevatedButton.styleFrom(
                                   shadowColor: Colors.transparent, backgroundColor: Colors.transparent)),
                         ),
+                        Container(
+                          height: 100,
+                          child: ListView(
+                            children: [
+                              ListView.builder(
+                                  physics: const ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: 5,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Container(
+                                      height: 10,
+                                      width: 100,
+                                      color: Colors.black,
+                                    );
+                                  })
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
