@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
@@ -17,6 +18,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  User? user;
+
+  @override
+  void initState() {
+    user = FirebaseAuth.instance.currentUser;
+    //database.getUsers().listen((snapshot) {
+    //List<dynamic> users = snapshot.docs;
+    //dbGetter = GetValues(user: user!, users: users);
+    //setState(() {});
+    //});
+    super.initState();
+  }
+
   AuthService auth = AuthService();
 
   List<String> uploadedFiles = List.generate(3, (int index) => 'file$index.png', growable: true);
@@ -106,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.settings, size: 40),
                 color: Color(CustomColors.main),
                 onPressed: () =>
-                    showDialog(context: context, builder: (BuildContext context) => const SettingsDialog()),
+                    showDialog(context: context, builder: (BuildContext context) => SettingsDialog(user: user!)),
               ),
               const SizedBox(width: 30)
             ],

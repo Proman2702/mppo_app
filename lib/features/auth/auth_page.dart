@@ -53,7 +53,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
-    double width = size.width;
+    //double width = size.width;
 
     return Container(
       decoration: BoxDecoration(gradient: BackgroundGrad()),

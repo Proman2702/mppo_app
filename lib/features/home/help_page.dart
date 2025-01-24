@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/features/home/settings_dialog.dart';
@@ -13,6 +14,19 @@ class HelpPage extends StatefulWidget {
 }
 
 class _HelpPageState extends State<HelpPage> {
+  User? user;
+
+  @override
+  void initState() {
+    user = FirebaseAuth.instance.currentUser;
+    //database.getUsers().listen((snapshot) {
+    //List<dynamic> users = snapshot.docs;
+    //dbGetter = GetValues(user: user!, users: users);
+    //setState(() {});
+    //});
+    super.initState();
+  }
+
   AuthService auth = AuthService();
 
   @override
@@ -101,7 +115,11 @@ class _HelpPageState extends State<HelpPage> {
               IconButton(
                 icon: Icon(Icons.settings, size: 40),
                 color: Color(CustomColors.main),
-                onPressed: () => showDialog(context: context, builder: (BuildContext context) => SettingsDialog()),
+                onPressed: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) => SettingsDialog(
+                          user: user!,
+                        )),
               ),
               SizedBox(width: 30)
             ],
