@@ -1,7 +1,4 @@
-import 'package:mppo_app/features/auth/forgot_password_page.dart';
-import 'package:mppo_app/features/auth/sign_in_page.dart';
-import 'package:mppo_app/features/home/help_page.dart';
-import 'package:mppo_app/features/wrapper.dart';
+import 'package:mppo_app/features/home/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,12 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: {
-        '/': (context) => const Wrapper(),
-        '/help': (context) => const HelpPage(),
-        '/auth/create': (context) => const FirstPage(),
-        '/auth/forgot': (context) => const ForgotPasswordPage(),
-      },
+      routes: {'/': (context) => HomePage()},
       theme: ThemeData(fontFamily: "Jura"),
     );
   }
