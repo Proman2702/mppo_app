@@ -56,7 +56,13 @@ class _AppDrawerState extends State<AppDrawer> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 60),
-              Text('SF App', style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold)),
+              Text('SF App',
+                  style: TextStyle(
+                      letterSpacing: 2,
+                      color: Colors.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Nunito')),
               SizedBox(height: 40),
               GestureDetector(
                 onTap: () {
