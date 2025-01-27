@@ -2,6 +2,9 @@ import 'package:mppo_app/features/home/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mppo_app/features/scanner/scanner_page.dart';
+import 'package:mppo_app/features/stats/history_page.dart';
+import 'package:mppo_app/features/stats/stats_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -27,7 +30,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: {'/': (context) => HomePage()},
+      routes: {
+        '/': (context) => HomePage(),
+        '/stats': (context) => StatsPage(),
+        '/scan': (context) => ScannerPage(),
+        '/history': (context) => HistoryPage(),
+      },
       theme: ThemeData(fontFamily: "Jura"),
     );
   }
