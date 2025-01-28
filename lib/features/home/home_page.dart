@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed('/scan');
+          Navigator.of(context).pushNamed('/scan/camera');
         },
         focusColor: Color(CustomColors.main),
         backgroundColor: Color(CustomColors.main),
