@@ -5,53 +5,42 @@ import 'package:mppo_app/features/scanner/scan_window_painter.dart';
 /// This widget represents an overlay that paints a scan window cutout.
 class ScanWindowOverlay extends StatelessWidget {
   /// Construct a new [ScanWindowOverlay] instance.
-  const ScanWindowOverlay({
-    super.key,
-    required this.controller,
-    required this.scanWindow,
-    this.borderColor = Colors.white,
-    this.borderRadius = BorderRadius.zero,
-    this.borderStrokeCap = StrokeCap.butt,
-    this.borderStrokeJoin = StrokeJoin.miter,
-    this.borderStyle = PaintingStyle.stroke,
-    this.borderWidth = 2.0,
-    this.color = const Color(0x80000000),
-  });
+  const ScanWindowOverlay({super.key, required this.controller, required this.scanWindow});
 
   /// The color for the scan window border.
   ///
   /// Defaults to [Colors.white].
-  final Color borderColor;
+  //final Color borderColor;
 
   /// The border radius for the scan window and its border.
   ///
   /// Defaults to [BorderRadius.zero].
-  final BorderRadius borderRadius;
+  //final BorderRadius borderRadius;
 
   /// The stroke cap for the border around the scan window.
   ///
   /// Defaults to [StrokeCap.butt].
-  final StrokeCap borderStrokeCap;
+  //final StrokeCap borderStrokeCap;
 
   /// The stroke join for the border around the scan window.
   ///
   /// Defaults to [StrokeJoin.miter].
-  final StrokeJoin borderStrokeJoin;
+  //final StrokeJoin borderStrokeJoin;
 
   /// The style for the border around the scan window.
   ///
   /// Defaults to [PaintingStyle.stroke].
-  final PaintingStyle borderStyle;
+  //final PaintingStyle borderStyle;
 
   /// The width for the border around the scan window.
   ///
   /// Defaults to 2.0.
-  final double borderWidth;
+  //final double borderWidth;
 
   /// The color for the scan window box.
   ///
   /// Defaults to [Colors.black] with 50% opacity.
-  final Color color;
+  //final Color color;
 
   /// The controller that manages the camera preview.
   final MobileScannerController controller;
@@ -76,14 +65,14 @@ class ScanWindowOverlay extends StatelessWidget {
         return CustomPaint(
           size: value.size,
           painter: ScanWindowPainter(
-            borderColor: borderColor,
-            borderRadius: borderRadius,
-            borderStrokeCap: borderStrokeCap,
-            borderStrokeJoin: borderStrokeJoin,
-            borderStyle: borderStyle,
-            borderWidth: borderWidth,
+            borderColor: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            borderStrokeCap: StrokeCap.butt,
+            borderStrokeJoin: StrokeJoin.miter,
+            borderStyle: PaintingStyle.stroke,
+            borderWidth: 5.0,
             scanWindow: scanWindow,
-            color: color,
+            color: Color.fromARGB(100, 255, 255, 255),
           ),
         );
       },

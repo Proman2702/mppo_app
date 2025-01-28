@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:mppo_app/etc/colors/colors.dart';
 
 class StartStopMobileScannerButton extends StatelessWidget {
   const StartStopMobileScannerButton({required this.controller, super.key});
@@ -65,7 +66,7 @@ class SwitchCameraButton extends StatelessWidget {
         }
 
         return IconButton(
-          color: Colors.white,
+          color: Color(CustomColors.bright),
           iconSize: 32.0,
           icon: icon,
           onPressed: () async {
@@ -94,7 +95,7 @@ class ToggleFlashlightButton extends StatelessWidget {
         switch (state.torchState) {
           case TorchState.auto:
             return IconButton(
-              color: Colors.white,
+              color: Color(CustomColors.bright),
               iconSize: 32.0,
               icon: const Icon(Icons.flash_auto),
               onPressed: () async {
@@ -103,7 +104,7 @@ class ToggleFlashlightButton extends StatelessWidget {
             );
           case TorchState.off:
             return IconButton(
-              color: Colors.white,
+              color: Color(CustomColors.bright),
               iconSize: 32.0,
               icon: const Icon(Icons.flash_off),
               onPressed: () async {
@@ -112,7 +113,7 @@ class ToggleFlashlightButton extends StatelessWidget {
             );
           case TorchState.on:
             return IconButton(
-              color: Colors.white,
+              color: Color(CustomColors.bright),
               iconSize: 32.0,
               icon: const Icon(Icons.flash_on),
               onPressed: () async {
@@ -125,7 +126,7 @@ class ToggleFlashlightButton extends StatelessWidget {
               child: Icon(
                 Icons.no_flash,
                 size: 32.0,
-                color: Colors.grey,
+                color: Color.fromARGB(255, 70, 70, 70),
               ),
             );
         }

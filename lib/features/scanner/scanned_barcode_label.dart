@@ -1,36 +1,35 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:mppo_app/features/scanner/scanner_page.dart';
 
 class ScannedBarcodeLabel extends StatelessWidget {
-  const ScannedBarcodeLabel({
+  ScannedBarcodeLabel({
     super.key,
-    required this.barcodes,
+    required this.controller,
   });
 
-  final Stream<BarcodeCapture> barcodes;
+  final MobileScannerController controller;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: barcodes,
+      stream: controller.barcodes,
       builder: (context, snapshot) {
         final scannedBarcodes = snapshot.data?.barcodes ?? [];
 
         final values = scannedBarcodes.map((e) => e.displayValue).join(', ');
 
-        if (scannedBarcodes.isEmpty) {
-          return const Text(
-            'Scan something!',
-            overflow: TextOverflow.fade,
-            style: TextStyle(color: Colors.white),
-          );
+        if (!scannedBarcodes.isEmpty) {
+          controller.dispose();
+          log("привет");
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ScannerPage()));
+          });
         }
 
-        return Text(
-          values.isEmpty ? 'No display value.' : values,
-          overflow: TextOverflow.fade,
-          style: const TextStyle(color: Colors.white),
-        );
+        return SizedBox();
       },
     );
   }

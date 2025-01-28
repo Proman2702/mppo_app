@@ -16,7 +16,7 @@ class ScannerPageMenu extends StatefulWidget {
 }
 
 class _ScannerPageMenuState extends State<ScannerPageMenu> {
-  final MobileScannerController _controller = MobileScannerController();
+  final MobileScannerController controller = MobileScannerController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +31,41 @@ class _ScannerPageMenuState extends State<ScannerPageMenu> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text('Scanner with Overlay Example app'),
-      ),
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(70),
+          child: AppBar(
+            toolbarHeight: 75,
+            leadingWidth: 70,
+            automaticallyImplyLeading: true,
+            backgroundColor: Color(CustomColors.shadowLight),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
+            ),
+            leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back, color: Color(CustomColors.main), size: 35)),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
+            title: Padding(
+              padding: const EdgeInsets.only(left: 0),
+              child: GradientText('Сканировать QR',
+                  colors: [Color(0xFF32E474), Color(0xff38CACF)],
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Nunito',
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0)),
+            ),
+          )),
       body: Stack(
         fit: StackFit.expand,
+        alignment: Alignment.center,
         children: [
           Center(
             child: MobileScanner(
@@ -50,8 +79,8 @@ class _ScannerPageMenuState extends State<ScannerPageMenu> {
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ScannedBarcodeLabel(barcodes: controller.barcodes),
+                    alignment: Alignment.center,
+                    child: ScannedBarcodeLabel(controller: controller),
                   ),
                 );
               },
@@ -61,7 +90,9 @@ class _ScannerPageMenuState extends State<ScannerPageMenu> {
             valueListenable: controller,
             builder: (context, value, child) {
               if (!value.isInitialized || !value.isRunning || value.error != null || scanWindow.isEmpty) {
-                return const SizedBox();
+                return Container(
+                  color: Colors.white,
+                );
               }
 
               return ScanWindowOverlay(
@@ -91,6 +122,6 @@ class _ScannerPageMenuState extends State<ScannerPageMenu> {
   @override
   Future<void> dispose() async {
     super.dispose();
-    await _controller.dispose();
+    await controller.dispose();
   }
 }
