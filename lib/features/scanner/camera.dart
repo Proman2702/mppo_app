@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-import 'package:mppo_app/features/scanner/scan_window_overlay.dart';
+import 'package:mppo_app/features/scanner/scanner_content/scan_window_overlay.dart';
 
-import 'package:mppo_app/features/scanner/scanned_barcode_label.dart';
-import 'package:mppo_app/features/scanner/scanner_button_widgets.dart';
-import 'package:mppo_app/features/scanner/scanner_error_widget.dart';
+import 'package:mppo_app/features/scanner/scanner_content/scanned_barcode_label.dart';
+import 'package:mppo_app/features/scanner/scanner_content/scanner_button_widgets.dart';
+import 'package:mppo_app/features/scanner/scanner_content/scanner_error_widget.dart';
 
 class ScannerPageMenu extends StatefulWidget {
   const ScannerPageMenu({super.key});

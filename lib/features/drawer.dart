@@ -26,7 +26,7 @@ class _AppDrawerState extends State<AppDrawer> {
   List<dynamic>? users;
   GetValues? dbGetter;
 
-  asyncGetter() async {
+  /*asyncGetter() async {
     database.getUsers().listen((snapshot) {
       List<dynamic> usersTmp = snapshot.docs;
       dbGetter = GetValues(user: user!, users: usersTmp);
@@ -34,14 +34,13 @@ class _AppDrawerState extends State<AppDrawer> {
         users = usersTmp;
       });
     });
-  }
+  }*/
 
   @override
   void initState() {
-    user = FirebaseAuth.instance.currentUser;
     super.initState();
 
-    asyncGetter();
+    //asyncGetter();
   }
 
   @override

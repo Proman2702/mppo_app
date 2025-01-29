@@ -25,7 +25,7 @@ class ScannedBarcodeLabel extends StatelessWidget {
           controller.dispose();
           log("привет");
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ScannerPage()));
+            Navigator.of(context).pushNamed('/scan', arguments: values);
           });
         }
 

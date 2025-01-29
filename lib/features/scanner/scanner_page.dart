@@ -14,6 +14,8 @@ class ScannerPage extends StatefulWidget {
 class _ScannerPageState extends State<ScannerPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  String? qrValue;
+
   @override
   void initState() {
     //database.getUsers().listen((snapshot) {
@@ -22,6 +24,13 @@ class _ScannerPageState extends State<ScannerPage> {
     //setState(() {});
     //});
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    qrValue = args as String;
+    super.didChangeDependencies();
   }
 
   @override
@@ -66,7 +75,12 @@ class _ScannerPageState extends State<ScannerPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [Text('бурда')],
+            children: [
+              Text(
+                qrValue ?? 'бурда',
+                textAlign: TextAlign.center,
+              )
+            ],
           ),
         ),
       ),
