@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mppo_app/features/scanner/camera.dart';
+import 'package:mppo_app/features/scanner/generator_page.dart';
 import 'package:mppo_app/features/scanner/scanner_page.dart';
 import 'package:mppo_app/features/stats/history_page.dart';
 import 'package:mppo_app/features/stats/stats_page.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/stats': (context) => StatsPage(),
         '/scan': (context) => ScannerPage(),
         '/scan/camera': (context) => ScannerPageMenu(),
+        '/scan/generator': (context) => GeneratorPage(),
         '/history': (context) => HistoryPage(),
       },
       theme: ThemeData(fontFamily: "Jura"),

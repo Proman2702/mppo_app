@@ -99,7 +99,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 onTap: () {
                   Navigator.of(context).pop();
                   if (widget.chosen != 1) {
-                    Navigator.of(context).pushNamed('/scan');
+                    Navigator.of(context).pushNamed('/scan/camera');
                   }
                 },
                 child: Container(
@@ -180,6 +180,35 @@ class _AppDrawerState extends State<AppDrawer> {
                       SizedBox(width: 15),
                       Text(
                         "История",
+                        style: TextStyle(
+                            fontFamily: 'Jura', fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: spacing),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  if (widget.chosen != 4) {
+                    Navigator.of(context).pushNamed('/scan/generator');
+                  }
+                },
+                child: Container(
+                  width: 230,
+                  height: 40,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: widget.chosen == 4 ? Colors.white24 : Colors.transparent),
+                  child: Row(
+                    children: [
+                      Icon(Icons.qr_code, color: Colors.white),
+                      SizedBox(width: 15),
+                      Text(
+                        "QR генератор",
                         style: TextStyle(
                             fontFamily: 'Jura', fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
                       )

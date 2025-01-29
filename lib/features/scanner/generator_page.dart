@@ -4,14 +4,14 @@ import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/features/drawer.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
-class ScannerPage extends StatefulWidget {
-  const ScannerPage({super.key});
+class GeneratorPage extends StatefulWidget {
+  const GeneratorPage({super.key});
 
   @override
-  State<ScannerPage> createState() => _ScannerPageState();
+  State<GeneratorPage> createState() => _GeneratorPageState();
 }
 
-class _ScannerPageState extends State<ScannerPage> {
+class _GeneratorPageState extends State<GeneratorPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String? qrValue;
@@ -27,26 +27,16 @@ class _ScannerPageState extends State<ScannerPage> {
   }
 
   @override
-  void didChangeDependencies() {
-    final args = ModalRoute.of(context)?.settings.arguments;
-    if (args != null) {
-      qrValue = args as String;
-    }
-
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: AppDrawer(chosen: 1),
+      drawer: AppDrawer(chosen: 4),
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70),
           child: AppBar(
             toolbarHeight: 75,
-            leadingWidth: 70,
+            leadingWidth: 60,
             automaticallyImplyLeading: true,
             backgroundColor: Color(CustomColors.shadowLight),
             flexibleSpace: Container(
@@ -63,13 +53,13 @@ class _ScannerPageState extends State<ScannerPage> {
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
             title: Padding(
               padding: const EdgeInsets.only(left: 0),
-              child: Text('Сканировать QR',
+              child: Text('Сгенерировать QR',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Nunito',
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 0)),
+                      letterSpacing: 1)),
             ),
           )),
       body: SingleChildScrollView(
@@ -77,12 +67,7 @@ class _ScannerPageState extends State<ScannerPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                qrValue ?? 'бурда',
-                textAlign: TextAlign.center,
-              )
-            ],
+            children: [Text('бурда v4')],
           ),
         ),
       ),

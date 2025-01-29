@@ -47,18 +47,20 @@ class _HomePageState extends State<HomePage> {
             leading: IconButton(
                 onPressed: () {
                   _scaffoldKey.currentState!.openDrawer();
-                  log("123");
                 },
                 icon: Icon(Icons.menu, color: Colors.white, size: 35)),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
-            title: const Text('SmartFridge IOT',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Nunito',
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2)),
+            title: const Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: const Text('SmartFridge',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Nunito',
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2)),
+            ),
           )),
       body: SingleChildScrollView(
         child: Center(
@@ -115,7 +117,7 @@ class _HomePageState extends State<HomePage> {
         },
         focusColor: Color(CustomColors.main),
         backgroundColor: Color(CustomColors.main),
-        child: Icon(Icons.qr_code, color: Colors.white, size: 30),
+        child: Icon(Icons.qr_code_2_outlined, color: Colors.white, size: 40),
       ),
     );
   }
