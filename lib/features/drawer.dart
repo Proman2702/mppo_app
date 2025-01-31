@@ -19,7 +19,7 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  final double spacing = 10;
+  final double spacing = 7;
 
   final database = DatabaseService();
   User? user;
@@ -38,6 +38,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   void initState() {
+    user = FirebaseAuth.instance.currentUser;
     super.initState();
 
     //asyncGetter();
@@ -54,7 +55,7 @@ class _AppDrawerState extends State<AppDrawer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 60),
+              SizedBox(height: 50),
               Text('SF App',
                   style: TextStyle(
                       letterSpacing: 2,
@@ -62,7 +63,44 @@ class _AppDrawerState extends State<AppDrawer> {
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Nunito')),
-              SizedBox(height: 40),
+              SizedBox(height: 10),
+              Container(
+                height: 90,
+                width: 230,
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 10, right: 10),
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(153, 0, 255, 247),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(color: Colors.black12, offset: Offset(0, 3), spreadRadius: 1, blurRadius: 2)
+                    ]),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: dbGetter?.getUser()?.username == null
+                      ? [CircularProgressIndicator()]
+                      : [
+                          Text(dbGetter!.getUser()!.username,
+                              style: TextStyle(
+                                  color: Color(CustomColors.bright),
+                                  fontFamily: 'nunito',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17)),
+                          Text(
+                            dbGetter!.getUser()!.email,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
+                width: 140,
+                height: 3,
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
+              ),
+              SizedBox(height: 30),
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
@@ -216,6 +254,35 @@ class _AppDrawerState extends State<AppDrawer> {
                   ),
                 ),
               ),
+              SizedBox(height: spacing),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  if (widget.chosen != 5) {
+                    Navigator.of(context).pushNamed('/home/settings', arguments: user);
+                  }
+                },
+                child: Container(
+                  width: 230,
+                  height: 40,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(left: 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: widget.chosen == 5 ? Colors.white24 : Colors.transparent),
+                  child: Row(
+                    children: [
+                      Icon(Icons.settings, color: Colors.white),
+                      SizedBox(width: 15),
+                      Text(
+                        "Настройки",
+                        style: TextStyle(
+                            fontFamily: 'Jura', fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(height: 15),
               Stack(
                 children: [
@@ -245,7 +312,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       )),
                 ],
               ),
-              const Flexible(child: SizedBox(height: 120)),
+              const Flexible(child: SizedBox(height: 0)),
               SizedBox(
                   height: 40,
                   width: 170,

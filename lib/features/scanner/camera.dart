@@ -36,9 +36,10 @@ class _ScannerPageMenuState extends State<ScannerPageMenu> {
           preferredSize: const Size.fromHeight(70),
           child: AppBar(
             toolbarHeight: 75,
-            leadingWidth: 70,
+            leadingWidth: 60,
             automaticallyImplyLeading: true,
-            backgroundColor: Color(CustomColors.shadowLight),
+            centerTitle: true,
+            backgroundColor: Colors.white,
             flexibleSpace: Container(
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -50,18 +51,15 @@ class _ScannerPageMenuState extends State<ScannerPageMenu> {
                 },
                 icon: Icon(Icons.arrow_back, color: Color(CustomColors.main), size: 35)),
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
-            title: Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: GradientText('Сканировать QR',
-                  colors: [Color(0xFF32E474), Color(0xff38CACF)],
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Nunito',
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0)),
-            ),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
+            title: GradientText('Сканировать QR',
+                colors: [Color(0xFF32E474), Color(0xff38CACF)],
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Nunito',
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1)),
           )),
       body: Stack(
         fit: StackFit.expand,

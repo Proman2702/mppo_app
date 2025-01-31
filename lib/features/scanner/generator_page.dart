@@ -65,12 +65,15 @@ class _GeneratorPageState extends State<GeneratorPage> {
             toolbarHeight: 75,
             leadingWidth: 60,
             automaticallyImplyLeading: true,
+            centerTitle: true,
+            elevation: 5,
+            shadowColor: Colors.black,
             backgroundColor: Color(CustomColors.shadowLight),
             flexibleSpace: Container(
               decoration: BoxDecoration(
                   gradient: BackgroundGrad(),
                   borderRadius:
-                      const BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
+                      const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
             ),
             leading: IconButton(
                 onPressed: () {
@@ -78,17 +81,14 @@ class _GeneratorPageState extends State<GeneratorPage> {
                 },
                 icon: const Icon(Icons.menu, color: Colors.white, size: 35)),
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
-            title: const Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Text('Сгенерировать QR',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Nunito',
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1)),
-            ),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+            title: Text('Генератор QR',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Nunito',
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1)),
           )),
       body: SingleChildScrollView(
         child: Center(

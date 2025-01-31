@@ -46,31 +46,31 @@ class _ScannerPageState extends State<ScannerPage> {
           preferredSize: const Size.fromHeight(70),
           child: AppBar(
             toolbarHeight: 75,
-            leadingWidth: 70,
+            leadingWidth: 60,
             automaticallyImplyLeading: true,
+            centerTitle: true,
+            elevation: 5,
+            shadowColor: Colors.black,
             backgroundColor: Color(CustomColors.shadowLight),
             flexibleSpace: Container(
               decoration: BoxDecoration(
                   gradient: BackgroundGrad(),
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
             ),
             leading: IconButton(
                 onPressed: () {
-                  _scaffoldKey.currentState!.openDrawer();
+                  Navigator.of(context).pushNamed('/');
                 },
-                icon: Icon(Icons.menu, color: Colors.white, size: 35)),
+                icon: Icon(Icons.arrow_back, color: Colors.white, size: 35)),
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
-            title: Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Text('Сканировать QR',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Nunito',
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0)),
-            ),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+            title: Text('Сканировать QR',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Nunito',
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1)),
           )),
       body: SingleChildScrollView(
         child: Center(
