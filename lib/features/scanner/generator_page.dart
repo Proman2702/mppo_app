@@ -1,6 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
+import 'dart:math' as math;
+import 'dart:typed_data';
+import 'dart:ui';
 
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/etc/colors/gradients/tiles.dart';
@@ -19,6 +25,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final GlobalKey _qrkey = GlobalKey();
+  String? _path;
 
   Map<String, dynamic> qrMap = {
     'productType': null,
@@ -41,16 +48,69 @@ class _GeneratorPageState extends State<GeneratorPage> {
   String? weight;
   String? calories;
 
+  Future<void> _captureAndSavePng() async {
+    try {
+      RenderRepaintBoundary boundary = _qrkey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      var image = await boundary.toImage(pixelRatio: 3.0);
+
+      //Drawing White Background because Qr Code is Black
+      final whitePaint = Paint()..color = Colors.white;
+      final recorder = PictureRecorder();
+      final canvas = Canvas(recorder, Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()));
+      canvas.drawRect(Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()), whitePaint);
+      canvas.drawImage(image, Offset.zero, Paint());
+      final picture = recorder.endRecording();
+      final img = await picture.toImage(image.width, image.height);
+      ByteData? byteData = await img.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+      //Check for duplicate file name to avoid Override
+      String fileName = 'qr_code';
+      int i = 1;
+      while (await File('$_path/$fileName.png').exists()) {
+        fileName = 'qr_code_$i';
+        i++;
+      }
+
+      // Check if Directory Path exists or not
+
+      final file = await File('$_path/$fileName.png').create();
+      await file.writeAsBytes(pngBytes);
+
+      if (!mounted) return;
+      const snackBar = SnackBar(content: Text('QR код сохранен в галерею'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (e) {
+      if (!mounted) return;
+      log(e.toString());
+      const snackBar = SnackBar(content: Text('Что-то пошло не так'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
   @override
   void initState() {
     weightOption = 1;
     numOption = 1;
+    getPublicDirectoryPath();
     //database.getUsers().listen((snapshot) {
     //List<dynamic> users = snapshot.docs;
     //dbGetter = GetValues(user: user!, users: users);
     //setState(() {});
     //});
     super.initState();
+  }
+
+  Future<void> getPublicDirectoryPath() async {
+    String path;
+
+    path = await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS);
+    log('привет');
+
+    setState(() {
+      _path = path;
+      // /storage/emulated/0/Download
+    });
   }
 
   @override
@@ -498,6 +558,8 @@ class _GeneratorPageState extends State<GeneratorPage> {
                       qrMap['numOption'] = numOption;
                       qrValue = "$qrMap";
                       setState(() {});
+
+                      Future.delayed(const Duration(milliseconds: 200), () => _captureAndSavePng());
                     },
                     child: const Text(
                       "Сгенерировать",

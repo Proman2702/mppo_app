@@ -44,6 +44,7 @@ dependencies:
   flutter_svg: ^2.0.17
   qr_flutter: ^4.1.0
   mobile_scanner: ^6.0.3
+  external_path: ^2.0.1
 
 dev_dependencies:
   flutter_test:

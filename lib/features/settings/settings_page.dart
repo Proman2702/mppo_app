@@ -155,7 +155,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         SizedBox(width: 20),
                         Container(width: 2, height: 50, color: Colors.black12),
                         SizedBox(width: 15),
-                        Icon(Icons.lock_open_outlined, size: 50, color: Color(CustomColors.main)),
+                        Icon(Icons.lock_open_outlined, size: 50, color: Color(CustomColors.bright)),
                       ],
                     ),
                   ),
@@ -198,7 +198,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         SizedBox(width: 20),
                         Container(width: 2, height: 50, color: Colors.black12),
                         SizedBox(width: 15),
-                        Icon(Icons.meeting_room, size: 50, color: Color(CustomColors.main))
+                        Icon(Icons.meeting_room, size: 50, color: Color(CustomColors.bright))
                       ],
                     ),
                   ),
@@ -234,7 +234,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         SizedBox(width: 20),
                         Container(width: 2, height: 50, color: Colors.white),
                         SizedBox(width: 15),
-                        Icon(Icons.delete_outlined, size: 50, color: Color(CustomColors.bright))
+                        Icon(Icons.delete_outlined, size: 50, color: Colors.white)
                       ],
                     ),
                   ),
