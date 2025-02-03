@@ -77,12 +77,7 @@ class _ScannerPageState extends State<ScannerPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                qrValue ?? 'бурда',
-                textAlign: TextAlign.center,
-              )
-            ],
+            children: [Text(qrValue ?? 'бурда', textAlign: TextAlign.center)],
           ),
         ),
       ),

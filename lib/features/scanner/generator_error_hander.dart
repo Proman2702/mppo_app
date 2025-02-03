@@ -19,7 +19,6 @@ class GeneratorDenySheet extends StatelessWidget {
         return 'Значение в некоторых полях должны быть числовыми';
       case 'date':
         return 'Дата записана в неверном формате';
-
       case 'success':
         return 'Успешно!';
     }
@@ -47,9 +46,7 @@ class GeneratorDenySheet extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.w700),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             SizedBox(
               height: 30,
               width: 110,

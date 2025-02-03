@@ -7,10 +7,12 @@ import 'dart:ui';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/etc/colors/gradients/tiles.dart';
 import 'package:mppo_app/features/drawer.dart';
+import 'package:mppo_app/features/scanner/generator_error_hander.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -188,74 +190,108 @@ class _GeneratorPageState extends State<GeneratorPage> {
               const SizedBox(height: 20),
               Container(width: 340, height: 1, color: Color(CustomColors.main)),
               const SizedBox(height: 20),
-              Container(
-                height: 45,
-                width: 300,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Color(CustomColors.main), width: 5),
-                  color: Colors.white,
-                ),
-                child: Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    SizedBox(
-                      width: 270,
-                      height: 45,
-                      child: TextField(
-                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                        maxLength: 250,
-                        onChanged: (value) => setState(() {
-                          productType = value;
-                        }),
-                        decoration: const InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          contentPadding: EdgeInsets.only(bottom: 10),
-                          counterText: "",
-                          border: InputBorder.none,
-                          labelText: "Тип продукта",
-                          labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
-                        ),
-                      ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 45,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Color(CustomColors.main), width: 5),
+                      color: Colors.white,
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                height: 45,
-                width: 300,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Color(CustomColors.main), width: 5),
-                  color: Colors.white,
-                ),
-                child: Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    SizedBox(
-                      width: 240,
-                      height: 45,
-                      child: TextField(
-                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                        maxLength: 250,
-                        onChanged: (value) => setState(() {
-                          productName = value;
-                        }),
-                        decoration: const InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          contentPadding: EdgeInsets.only(bottom: 10),
-                          counterText: "",
-                          border: InputBorder.none,
-                          labelText: "Название продукта",
-                          labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: 270,
+                          height: 45,
+                          child: TextField(
+                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
+                            maxLength: 30,
+                            inputFormatters: [
+                              TextInputFormatter.withFunction(
+                                (oldValue, newValue) {
+                                  String text = newValue.text.replaceAll(RegExp(r' '), '');
+                                  return TextEditingValue(text: text);
+                                },
+                              )
+                            ],
+                            onChanged: (value) => setState(() {
+                              productType = value;
+                            }),
+                            decoration: const InputDecoration(
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              contentPadding: EdgeInsets.only(bottom: 10),
+                              counterText: "",
+                              border: InputBorder.none,
+                              labelText: "...",
+                              labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Text('Тип продукта', style: TextStyle(color: Color(CustomColors.bright), fontSize: 12)),
+                  )
+                ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 45,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Color(CustomColors.main), width: 5),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: 240,
+                          height: 45,
+                          child: TextField(
+                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
+                            maxLength: 30,
+                            inputFormatters: [
+                              TextInputFormatter.withFunction(
+                                (oldValue, newValue) {
+                                  String text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+                                  return TextEditingValue(text: text);
+                                },
+                              )
+                            ],
+                            onChanged: (value) => setState(() {
+                              productName = value;
+                            }),
+                            decoration: const InputDecoration(
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              contentPadding: EdgeInsets.only(bottom: 10),
+                              counterText: "",
+                              border: InputBorder.none,
+                              labelText: "...",
+                              labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Text('Название продукта', style: TextStyle(color: Color(CustomColors.bright), fontSize: 12)),
+                  )
+                ],
+              ),
+              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -272,7 +308,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                         child: Row(
                           // ДОДЕЛАТЬ АВТОЗАПОЛНЕНИЕ ТОЧКАМИ
                           children: [
-                            const SizedBox(width: 10),
+                            SizedBox(width: 10),
                             SizedBox(
                               width: 125,
                               height: 45,
@@ -283,6 +319,22 @@ class _GeneratorPageState extends State<GeneratorPage> {
                                     color: Colors.black87,
                                     letterSpacing: -0.5),
                                 maxLength: 10,
+                                inputFormatters: [
+                                  TextInputFormatter.withFunction((oldValue, newValue) {
+                                    String text =
+                                        newValue.text.replaceAll(RegExp(r'[^0-9]'), ''); // Убираем всё, кроме цифр
+                                    // Ограничиваем длину
+
+                                    // Добавляем "-" в нужные позиции
+                                    if (text.length > 4) {
+                                      text = '${text.substring(0, 2)}-${text.substring(2, 4)}-${text.substring(4)}';
+                                    } else if (text.length > 2) {
+                                      text = '${text.substring(0, 2)}-${text.substring(2)}';
+                                    }
+
+                                    return TextEditingValue(text: text);
+                                  }),
+                                ],
                                 onChanged: (value) => setState(() {
                                   createdTime = value;
                                 }),
@@ -291,7 +343,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                                   contentPadding: EdgeInsets.only(bottom: 11),
                                   counterText: "",
                                   border: InputBorder.none,
-                                  labelText: "",
+                                  labelText: "ДД-ММ-ГГГГ",
                                   labelStyle:
                                       TextStyle(color: Colors.black12, fontSize: 18, fontWeight: FontWeight.w700),
                                 ),
@@ -303,7 +355,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                       Text('Дата изготовления', style: TextStyle(color: Color(CustomColors.bright), fontSize: 12))
                     ],
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     children: [
                       Container(
@@ -315,7 +367,6 @@ class _GeneratorPageState extends State<GeneratorPage> {
                           color: Colors.white,
                         ),
                         child: Row(
-                          // ДОДЕЛАТЬ АВТОЗАПОЛНЕНИЕ ТОЧКАМИ
                           children: [
                             const SizedBox(width: 8),
                             SizedBox(
@@ -328,6 +379,22 @@ class _GeneratorPageState extends State<GeneratorPage> {
                                     color: Colors.black87,
                                     letterSpacing: -0.5),
                                 maxLength: 10,
+                                inputFormatters: [
+                                  TextInputFormatter.withFunction((oldValue, newValue) {
+                                    String text =
+                                        newValue.text.replaceAll(RegExp(r'[^0-9]'), ''); // Убираем всё, кроме цифр
+                                    // Ограничиваем длину
+
+                                    // Добавляем "-" в нужные позиции
+                                    if (text.length > 4) {
+                                      text = '${text.substring(0, 2)}-${text.substring(2, 4)}-${text.substring(4)}';
+                                    } else if (text.length > 2) {
+                                      text = '${text.substring(0, 2)}-${text.substring(2)}';
+                                    }
+
+                                    return TextEditingValue(text: text);
+                                  }),
+                                ],
                                 onChanged: (value) => setState(() {
                                   expiredTime = value;
                                 }),
@@ -336,7 +403,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                                   contentPadding: EdgeInsets.only(bottom: 11),
                                   counterText: "",
                                   border: InputBorder.none,
-                                  labelText: "",
+                                  labelText: "ДД-ММ-ГГГГ",
                                   labelStyle:
                                       TextStyle(color: Colors.black12, fontSize: 18, fontWeight: FontWeight.w700),
                                 ),
@@ -354,36 +421,58 @@ class _GeneratorPageState extends State<GeneratorPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 45,
-                    width: 220,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Color(CustomColors.main), width: 5),
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: 170,
-                          height: 45,
-                          child: TextField(
-                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                            maxLength: 15,
-                            onChanged: (value) => setState(() {}),
-                            decoration: const InputDecoration(
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
-                              contentPadding: EdgeInsets.only(bottom: 10),
-                              counterText: "",
-                              border: InputBorder.none,
-                              labelText: "Масса/объем",
-                              labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
-                            ),
-                          ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 45,
+                        width: 220,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Color(CustomColors.main), width: 5),
+                          color: Colors.white,
                         ),
-                      ],
-                    ),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 10),
+                            SizedBox(
+                              width: 170,
+                              height: 45,
+                              child: TextField(
+                                style:
+                                    const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
+                                maxLength: 12,
+                                inputFormatters: [
+                                  TextInputFormatter.withFunction(
+                                    (oldValue, newValue) {
+                                      String text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+                                      return TextEditingValue(text: text);
+                                    },
+                                  )
+                                ],
+                                onChanged: (value) => setState(() {
+                                  weight = value;
+                                }),
+                                decoration: const InputDecoration(
+                                  floatingLabelBehavior: FloatingLabelBehavior.never,
+                                  contentPadding: EdgeInsets.only(bottom: 10),
+                                  counterText: "",
+                                  border: InputBorder.none,
+                                  labelText: "В кг/мл",
+                                  labelStyle:
+                                      TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: Text('Масса/объем продукта',
+                            style: TextStyle(color: Color(CustomColors.bright), fontSize: 12)),
+                      )
+                    ],
                   ),
                   SizedBox(width: 20),
                   SizedBox(
@@ -437,39 +526,57 @@ class _GeneratorPageState extends State<GeneratorPage> {
                   )
                 ],
               ),
-              SizedBox(height: 10),
-              Container(
-                height: 45,
-                width: 300,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Color(CustomColors.main), width: 5),
-                  color: Colors.white,
-                ),
-                child: Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    SizedBox(
-                      width: 240,
-                      height: 45,
-                      child: TextField(
-                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                        maxLength: 250,
-                        onChanged: (value) => setState(() {
-                          weight = value;
-                        }),
-                        decoration: const InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                          contentPadding: EdgeInsets.only(bottom: 10),
-                          counterText: "",
-                          border: InputBorder.none,
-                          labelText: "Энегр. ценность",
-                          labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
-                        ),
-                      ),
+              const SizedBox(height: 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 45,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Color(CustomColors.main), width: 5),
+                      color: Colors.white,
                     ),
-                  ],
-                ),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: 240,
+                          height: 45,
+                          child: TextField(
+                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
+                            maxLength: 16,
+                            inputFormatters: [
+                              TextInputFormatter.withFunction(
+                                (oldValue, newValue) {
+                                  String text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+                                  return TextEditingValue(text: text);
+                                },
+                              )
+                            ],
+                            onChanged: (value) => setState(() {
+                              calories = value;
+                            }),
+                            decoration: const InputDecoration(
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              contentPadding: EdgeInsets.only(bottom: 10),
+                              counterText: "",
+                              border: InputBorder.none,
+                              labelText: "В ккал",
+                              labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Text('Энергетическая ценность',
+                        style: TextStyle(color: Color(CustomColors.bright), fontSize: 12)),
+                  )
+                ],
               ),
               const SizedBox(height: 10),
               Row(
@@ -523,10 +630,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                                 },
                               ),
                             ),
-                            Text(
-                              "шт.",
-                              style: TextStyle(color: Color(CustomColors.bright)),
-                            )
+                            Text("шт.", style: TextStyle(color: Color(CustomColors.bright)))
                           ],
                         ),
                       ],
@@ -534,7 +638,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                   )
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
                   height: 35,
                   width: 215,
@@ -548,18 +652,33 @@ class _GeneratorPageState extends State<GeneratorPage> {
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
                     onPressed: () {
-                      qrMap['productType'] = productType;
-                      qrMap['productName'] = productName;
-                      qrMap['createdTime'] = createdTime;
-                      qrMap['expiredTime'] = expiredTime;
-                      qrMap['weight'] = weight;
-                      qrMap['weightOption'] = weightOption;
-                      qrMap['calories'] = calories;
-                      qrMap['numOption'] = numOption;
-                      qrValue = "$qrMap";
-                      setState(() {});
+                      if ([
+                        productType,
+                        productName,
+                        createdTime,
+                        expiredTime,
+                        weight,
+                        weightOption,
+                        calories,
+                        numOption
+                      ].every((element) => element != null)) {
+                        qrMap['productType'] = productType;
+                        qrMap['productName'] = productName;
+                        qrMap['createdTime'] = createdTime;
+                        qrMap['expiredTime'] = expiredTime;
+                        qrMap['weight'] = weight;
+                        qrMap['weightOption'] = weightOption;
+                        qrMap['calories'] = calories;
+                        qrMap['numOption'] = numOption;
 
-                      Future.delayed(const Duration(milliseconds: 200), () => _captureAndSavePng());
+                        qrValue = "$qrMap";
+                        setState(() {});
+
+                        Future.delayed(const Duration(milliseconds: 200), () => _captureAndSavePng());
+                      } else {
+                        showModalBottomSheet(
+                            context: context, builder: (BuildContext context) => GeneratorDenySheet(type: 'none'));
+                      }
                     },
                     child: const Text(
                       "Сгенерировать",
