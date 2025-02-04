@@ -70,7 +70,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(left: 10, right: 10),
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(153, 0, 255, 247),
+                    color: Color.fromARGB(178, 255, 255, 255),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(color: Colors.black12, offset: Offset(0, 3), spreadRadius: 1, blurRadius: 2)

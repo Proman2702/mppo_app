@@ -18,7 +18,7 @@ class GeneratorDenySheet extends StatelessWidget {
       case 'int':
         return 'Значение в некоторых полях должны быть числовыми';
       case 'date':
-        return 'Дата записана в неверном формате';
+        return 'Ошибка в записи даты';
       case 'success':
         return 'Успешно!';
     }

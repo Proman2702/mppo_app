@@ -59,7 +59,7 @@ class _ScannerPageState extends State<ScannerPage> {
             ),
             leading: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/');
+                  Navigator.of(context).pop();
                 },
                 icon: Icon(Icons.arrow_back, color: Colors.white, size: 35)),
             shape: const RoundedRectangleBorder(

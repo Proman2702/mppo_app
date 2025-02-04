@@ -80,12 +80,18 @@ class _GeneratorPageState extends State<GeneratorPage> {
       await file.writeAsBytes(pngBytes);
 
       if (!mounted) return;
-      const snackBar = SnackBar(content: Text('QR код сохранен в галерею'));
+      final snackBar = SnackBar(
+        content: Text('QR код сохранен в галерею', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Color(CustomColors.main),
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
       if (!mounted) return;
       log(e.toString());
-      const snackBar = SnackBar(content: Text('Что-то пошло не так'));
+      final snackBar = SnackBar(
+        content: Text('Что-то пошло не так', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Color(CustomColors.main),
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
@@ -144,7 +150,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                 icon: const Icon(Icons.menu, color: Colors.white, size: 35)),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
-            title: Text('Генератор QR',
+            title: const Text('Генератор QR',
                 style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Nunito',
@@ -264,7 +270,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                             inputFormatters: [
                               TextInputFormatter.withFunction(
                                 (oldValue, newValue) {
-                                  String text = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+                                  String text = newValue.text.replaceAll(RegExp(r' '), '');
                                   return TextEditingValue(text: text);
                                 },
                               )
@@ -652,6 +658,14 @@ class _GeneratorPageState extends State<GeneratorPage> {
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
                     onPressed: () {
+                      String formatDate(String input) {
+                        List<String> parts = input.split('-');
+                        if (parts.length == 3) {
+                          return '${parts[2]}-${parts[1]}-${parts[0]}';
+                        }
+                        return input;
+                      }
+
                       if ([
                         productType,
                         productName,
@@ -662,19 +676,25 @@ class _GeneratorPageState extends State<GeneratorPage> {
                         calories,
                         numOption
                       ].every((element) => element != null)) {
-                        qrMap['productType'] = productType;
-                        qrMap['productName'] = productName;
-                        qrMap['createdTime'] = createdTime;
-                        qrMap['expiredTime'] = expiredTime;
-                        qrMap['weight'] = weight;
-                        qrMap['weightOption'] = weightOption;
-                        qrMap['calories'] = calories;
-                        qrMap['numOption'] = numOption;
+                        if (DateTime.parse(formatDate(createdTime!))
+                            .isBefore(DateTime.parse(formatDate(expiredTime!)))) {
+                          qrMap['productType'] = productType;
+                          qrMap['productName'] = productName;
+                          qrMap['createdTime'] = createdTime;
+                          qrMap['expiredTime'] = expiredTime;
+                          qrMap['weight'] = weight;
+                          qrMap['weightOption'] = weightOption;
+                          qrMap['calories'] = calories;
+                          qrMap['numOption'] = numOption;
 
-                        qrValue = "$qrMap";
-                        setState(() {});
+                          qrValue = "$qrMap";
+                          setState(() {});
 
-                        Future.delayed(const Duration(milliseconds: 200), () => _captureAndSavePng());
+                          Future.delayed(const Duration(milliseconds: 200), () => _captureAndSavePng());
+                        } else {
+                          showModalBottomSheet(
+                              context: context, builder: (BuildContext context) => GeneratorDenySheet(type: 'date'));
+                        }
                       } else {
                         showModalBottomSheet(
                             context: context, builder: (BuildContext context) => GeneratorDenySheet(type: 'none'));

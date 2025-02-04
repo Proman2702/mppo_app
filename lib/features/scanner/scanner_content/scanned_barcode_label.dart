@@ -23,10 +23,10 @@ class ScannedBarcodeLabel extends StatelessWidget {
 
         if (!scannedBarcodes.isEmpty) {
           controller.dispose();
-          log("привет");
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushNamed('/scan', arguments: values);
+            Navigator.of(context).popAndPushNamed('/scan', arguments: values);
           });
+          return SizedBox();
         }
 
         return SizedBox();
