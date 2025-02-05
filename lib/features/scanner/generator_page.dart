@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as math;
@@ -687,7 +688,8 @@ class _GeneratorPageState extends State<GeneratorPage> {
                           qrMap['calories'] = calories;
                           qrMap['numOption'] = numOption;
 
-                          qrValue = "$qrMap";
+                          qrValue = jsonEncode(qrMap);
+                          log("$qrValue");
                           setState(() {});
 
                           Future.delayed(const Duration(milliseconds: 200), () => _captureAndSavePng());

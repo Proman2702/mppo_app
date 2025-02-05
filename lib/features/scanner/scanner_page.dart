@@ -1,8 +1,22 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/features/drawer.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+
+const requiredKeys = {
+  'productType',
+  'productName',
+  'createdTime',
+  'expiredTime',
+  'weight',
+  'weightOption',
+  'calories',
+  'numOption'
+};
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});
@@ -31,6 +45,29 @@ class _ScannerPageState extends State<ScannerPage> {
     final args = ModalRoute.of(context)?.settings.arguments;
     if (args != null) {
       qrValue = args as String;
+      try {
+        final Map<String, dynamic> data = json.decode(qrValue!);
+
+        // Список обязательных ключей
+        const requiredKeys = {
+          'productType',
+          'productName',
+          'createdTime',
+          'expiredTime',
+          'weight',
+          'weightOption',
+          'calories',
+          'numOption'
+        };
+
+        // Проверяем, что все ключи присутствуют
+        bool isParsed = requiredKeys.every(data.containsKey);
+        if (!isParsed) {
+          throw Exception("не прошел парсинг");
+        }
+      } catch (e) {
+        qrValue = null; // Если ошибка при парсинге, значит JSON невалиден
+      }
     }
 
     super.didChangeDependencies();
@@ -64,7 +101,7 @@ class _ScannerPageState extends State<ScannerPage> {
                 icon: Icon(Icons.arrow_back, color: Colors.white, size: 35)),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
-            title: Text('Сканировать QR',
+            title: const Text('Сканировать QR',
                 style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Nunito',
@@ -77,7 +114,7 @@ class _ScannerPageState extends State<ScannerPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [Text(qrValue ?? 'бурда', textAlign: TextAlign.center)],
+            children: [Text(qrValue ?? '', textAlign: TextAlign.center)],
           ),
         ),
       ),
