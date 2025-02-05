@@ -678,7 +678,9 @@ class _GeneratorPageState extends State<GeneratorPage> {
                         numOption
                       ].every((element) => element != null)) {
                         if (DateTime.parse(formatDate(createdTime!))
-                            .isBefore(DateTime.parse(formatDate(expiredTime!)))) {
+                                .isBefore(DateTime.parse(formatDate(expiredTime!))) &&
+                            DateTime.tryParse(formatDate(createdTime!)) != null &&
+                            DateTime.tryParse(formatDate(expiredTime!)) != null) {
                           qrMap['productType'] = productType;
                           qrMap['productName'] = productName;
                           qrMap['createdTime'] = createdTime;

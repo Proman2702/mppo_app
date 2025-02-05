@@ -110,13 +110,45 @@ class _ScannerPageState extends State<ScannerPage> {
                     letterSpacing: 1)),
           )),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [Text(qrValue ?? '', textAlign: TextAlign.center)],
-          ),
-        ),
+        child: qrValue != null
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [Text(qrValue!, textAlign: TextAlign.center)],
+              )
+            : Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: 100),
+                    Container(
+                      width: 270,
+                      height: 150,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 5)]),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.highlight_remove, size: 100, color: Color(CustomColors.delete)),
+                          Text('Ошибка!',
+                              style: TextStyle(
+                                  color: Color(CustomColors.delete), fontSize: 22, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    SizedBox(
+                        width: 250,
+                        child: Text(
+                          'QR-код содержит данные, не предназначенные для использования приложением',
+                          textAlign: TextAlign.center,
+                          style:
+                              TextStyle(fontSize: 16, color: Color(CustomColors.delete), fontWeight: FontWeight.w500),
+                        ))
+                  ],
+                ),
+              ),
       ),
     );
   }
