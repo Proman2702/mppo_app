@@ -38,7 +38,8 @@ class _GeneratorPageState extends State<GeneratorPage> {
     'weight': null,
     'weightOption': null,
     'calories': null,
-    'numOption': null
+    'numOption': null,
+    'allergy': null
   };
 
   String? qrValue;
@@ -50,6 +51,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
   String? expiredTime;
   String? weight;
   String? calories;
+  Map<String, bool>? allergy;
 
   Future<void> _captureAndSavePng() async {
     try {
@@ -101,6 +103,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
   void initState() {
     weightOption = 1;
     numOption = 1;
+    allergy = {'other': false, 'lactose': false, 'gluten': false};
     getPublicDirectoryPath();
     //database.getUsers().listen((snapshot) {
     //List<dynamic> users = snapshot.docs;
@@ -217,14 +220,6 @@ class _GeneratorPageState extends State<GeneratorPage> {
                           child: TextField(
                             style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
                             maxLength: 30,
-                            inputFormatters: [
-                              TextInputFormatter.withFunction(
-                                (oldValue, newValue) {
-                                  String text = newValue.text.replaceAll(RegExp(r' '), '');
-                                  return TextEditingValue(text: text);
-                                },
-                              )
-                            ],
                             onChanged: (value) => setState(() {
                               productType = value;
                             }),
@@ -268,14 +263,6 @@ class _GeneratorPageState extends State<GeneratorPage> {
                           child: TextField(
                             style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
                             maxLength: 30,
-                            inputFormatters: [
-                              TextInputFormatter.withFunction(
-                                (oldValue, newValue) {
-                                  String text = newValue.text.replaceAll(RegExp(r' '), '');
-                                  return TextEditingValue(text: text);
-                                },
-                              )
-                            ],
                             onChanged: (value) => setState(() {
                               productName = value;
                             }),
@@ -592,13 +579,13 @@ class _GeneratorPageState extends State<GeneratorPage> {
                   Container(
                       padding: EdgeInsets.only(left: 10),
                       height: 45,
-                      width: 200,
+                      width: 220,
                       child: Text('Ед. измерения',
                           style:
                               TextStyle(color: Color(CustomColors.main), fontSize: 20, fontWeight: FontWeight.bold))),
-                  const SizedBox(width: 30),
+                  const SizedBox(width: 25),
                   SizedBox(
-                    width: 80,
+                    width: 75,
                     child: Row(
                       children: [
                         Column(
@@ -620,7 +607,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                             Text("вес", style: TextStyle(color: Color(CustomColors.bright)))
                           ],
                         ),
-                        const SizedBox(width: 20),
+                        const SizedBox(width: 10),
                         Column(
                           children: [
                             SizedBox(
@@ -645,7 +632,81 @@ class _GeneratorPageState extends State<GeneratorPage> {
                   )
                 ],
               ),
-              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      padding: EdgeInsets.only(left: 10),
+                      width: 200,
+                      child: Text('Аллергены',
+                          style:
+                              TextStyle(color: Color(CustomColors.main), fontSize: 20, fontWeight: FontWeight.bold))),
+                  SizedBox(
+                    width: 120,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Прочие", style: TextStyle(color: Color(CustomColors.bright), fontSize: 14)),
+                            SizedBox(
+                              width: 40,
+                              height: 20,
+                              child: Checkbox(
+                                value: allergy!['other'],
+                                onChanged: (value) {
+                                  allergy!['other'] = !allergy!['other']!;
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Лактоза", style: TextStyle(color: Color(CustomColors.bright), fontSize: 14)),
+                            SizedBox(
+                              width: 40,
+                              height: 20,
+                              child: Checkbox(
+                                value: allergy!['lactose'],
+                                onChanged: (value) {
+                                  allergy!['lactose'] = !allergy!['lactose']!;
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text("Глютен", style: TextStyle(color: Color(CustomColors.bright), fontSize: 14)),
+                            SizedBox(
+                              width: 40,
+                              height: 20,
+                              child: Checkbox(
+                                value: allergy!['gluten'],
+                                onChanged: (value) {
+                                  allergy!['gluten'] = !allergy!['gluten']!;
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  )
+                ],
+              ),
               Container(
                   height: 35,
                   width: 215,
@@ -675,20 +736,20 @@ class _GeneratorPageState extends State<GeneratorPage> {
                         weight,
                         weightOption,
                         calories,
-                        numOption
+                        numOption,
+                        allergy
                       ].every((element) => element != null)) {
                         if (DateTime.parse(formatDate(createdTime!))
-                                .isBefore(DateTime.parse(formatDate(expiredTime!))) &&
-                            DateTime.tryParse(formatDate(createdTime!)) != null &&
-                            DateTime.tryParse(formatDate(expiredTime!)) != null) {
+                            .isBefore(DateTime.parse(formatDate(expiredTime!)))) {
                           qrMap['productType'] = productType;
                           qrMap['productName'] = productName;
                           qrMap['createdTime'] = createdTime;
                           qrMap['expiredTime'] = expiredTime;
-                          qrMap['weight'] = weight;
+                          qrMap['weight'] = int.parse(weight!);
                           qrMap['weightOption'] = weightOption;
-                          qrMap['calories'] = calories;
+                          qrMap['calories'] = int.parse(calories!);
                           qrMap['numOption'] = numOption;
+                          qrMap['allergy'] = allergy;
 
                           qrValue = jsonEncode(qrMap);
                           log("$qrValue");
