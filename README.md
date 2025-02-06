@@ -1,6 +1,6 @@
 <div align="center" style="text-align: center;">
   
-![Логотип Note AI](assets/images/image.png)
+![Логотип Note AI](assets/images/LMNDGaJR_t4.jpg)
 
 **Note AI** - это сервис для распознавания и воспроизведения нот, разработанный в рамках московской предпрофессиональной олимпиады
 
