@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:mppo_app/features/scanner/scanner_page.dart';
 
 class ScannedBarcodeLabel extends StatelessWidget {
-  ScannedBarcodeLabel({
+  const ScannedBarcodeLabel({
     super.key,
     required this.controller,
   });
@@ -21,15 +18,15 @@ class ScannedBarcodeLabel extends StatelessWidget {
 
         final values = scannedBarcodes.map((e) => e.displayValue).join(', ');
 
-        if (!scannedBarcodes.isEmpty) {
+        if (scannedBarcodes.isNotEmpty) {
           controller.dispose();
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.of(context).popAndPushNamed('/scan', arguments: values);
           });
-          return SizedBox();
+          return const SizedBox();
         }
 
-        return SizedBox();
+        return const SizedBox();
       },
     );
   }

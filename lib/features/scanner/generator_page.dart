@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:math' as math;
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:external_path/external_path.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -14,8 +13,9 @@ import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/etc/colors/gradients/tiles.dart';
 import 'package:mppo_app/features/drawer.dart';
 import 'package:mppo_app/features/scanner/generator_error_hander.dart';
+import 'package:mppo_app/repositories/database/database_service.dart';
+import 'package:mppo_app/repositories/database/get_values.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class GeneratorPage extends StatefulWidget {
   const GeneratorPage({super.key});
@@ -41,6 +41,9 @@ class _GeneratorPageState extends State<GeneratorPage> {
     'numOption': null,
     'allergy': null
   };
+  User? user;
+  final database = DatabaseService();
+  GetValues? dbGetter;
 
   String? qrValue;
   int? weightOption; // 1 - кг, 2 - мл
@@ -84,7 +87,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
 
       if (!mounted) return;
       final snackBar = SnackBar(
-        content: Text('QR код сохранен в галерею', style: TextStyle(fontWeight: FontWeight.bold)),
+        content: const Text('QR код сохранен в галерею', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Color(CustomColors.main),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -92,7 +95,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
       if (!mounted) return;
       log(e.toString());
       final snackBar = SnackBar(
-        content: Text('Что-то пошло не так', style: TextStyle(fontWeight: FontWeight.bold)),
+        content: const Text('Что-то пошло не так', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Color(CustomColors.main),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -105,11 +108,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
     numOption = 1;
     allergy = {'other': false, 'lactose': false, 'gluten': false};
     getPublicDirectoryPath();
-    //database.getUsers().listen((snapshot) {
-    //List<dynamic> users = snapshot.docs;
-    //dbGetter = GetValues(user: user!, users: users);
-    //setState(() {});
-    //});
+
     super.initState();
   }
 
@@ -117,7 +116,6 @@ class _GeneratorPageState extends State<GeneratorPage> {
     String path;
 
     path = await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS);
-    log('привет');
 
     setState(() {
       _path = path;
@@ -130,7 +128,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: AppDrawer(chosen: 4),
+      drawer: const AppDrawer(chosen: 4),
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70),
           child: AppBar(
@@ -302,7 +300,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                         child: Row(
                           // ДОДЕЛАТЬ АВТОЗАПОЛНЕНИЕ ТОЧКАМИ
                           children: [
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             SizedBox(
                               width: 125,
                               height: 45,
@@ -411,7 +409,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                   )
                 ],
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -468,7 +466,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                       )
                     ],
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   SizedBox(
                     width: 60,
                     child: Row(
@@ -577,7 +575,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 10),
                       height: 45,
                       width: 220,
                       child: Text('Ед. измерения',
@@ -637,7 +635,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 10),
                       width: 200,
                       child: Text('Аллергены',
                           style:
@@ -647,7 +645,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -665,7 +663,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -683,7 +681,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -701,7 +699,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   )
@@ -758,11 +756,13 @@ class _GeneratorPageState extends State<GeneratorPage> {
                           Future.delayed(const Duration(milliseconds: 200), () => _captureAndSavePng());
                         } else {
                           showModalBottomSheet(
-                              context: context, builder: (BuildContext context) => GeneratorDenySheet(type: 'date'));
+                              context: context,
+                              builder: (BuildContext context) => const GeneratorDenySheet(type: 'date'));
                         }
                       } else {
                         showModalBottomSheet(
-                            context: context, builder: (BuildContext context) => GeneratorDenySheet(type: 'none'));
+                            context: context,
+                            builder: (BuildContext context) => const GeneratorDenySheet(type: 'none'));
                       }
                     },
                     child: const Text(

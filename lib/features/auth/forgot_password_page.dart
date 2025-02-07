@@ -22,8 +22,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height;
+    //Size size = MediaQuery.of(context).size;
+    //double height = size.height;
     //double width = size.width;
 
     return Container(

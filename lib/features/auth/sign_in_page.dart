@@ -52,7 +52,7 @@ class _FirstPageState extends State<FirstPage> {
     Navigator.pop(context);
 
     if (user![0] == 0) {
-      await database.addUser(CustomUser(username: username!, email: em));
+      await database.addUser(CustomUser(username: username!, email: em, items: []));
 
       Navigator.of(context).pushNamed('/');
       await auth.sendVerification();

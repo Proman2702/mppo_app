@@ -3,7 +3,6 @@
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'dart:math' as math;
-import 'package:mppo_app/etc/colors/gradients/drawer.dart';
 import 'package:mppo_app/repositories/database/database_service.dart';
 import 'package:mppo_app/repositories/database/get_values.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,7 +25,7 @@ class _AppDrawerState extends State<AppDrawer> {
   List<dynamic>? users;
   GetValues? dbGetter;
 
-  /*asyncGetter() async {
+  asyncGetter() async {
     database.getUsers().listen((snapshot) {
       List<dynamic> usersTmp = snapshot.docs;
       dbGetter = GetValues(user: user!, users: usersTmp);
@@ -34,14 +33,14 @@ class _AppDrawerState extends State<AppDrawer> {
         users = usersTmp;
       });
     });
-  }*/
+  }
 
   @override
   void initState() {
     user = FirebaseAuth.instance.currentUser;
     super.initState();
 
-    //asyncGetter();
+    asyncGetter();
   }
 
   @override
@@ -89,7 +88,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                   fontSize: 17)),
                           Text(
                             dbGetter!.getUser()!.email,
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Color.fromARGB(255, 113, 47, 148)),
                           ),
                         ],
                 ),
