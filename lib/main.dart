@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mppo_app/features/auth/forgot_password_page.dart';
 import 'package:mppo_app/features/auth/sign_in_page.dart';
-import 'package:mppo_app/features/home/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

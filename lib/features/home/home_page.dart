@@ -1,9 +1,14 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/features/drawer.dart';
+import 'package:mppo_app/features/home/tile_builder.dart';
 import 'package:mppo_app/repositories/auth/auth_service.dart';
+import 'package:mppo_app/repositories/database/database_service.dart';
+import 'package:mppo_app/repositories/database/get_values.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,16 +22,39 @@ class _HomePageState extends State<HomePage> {
 
   AuthService auth = AuthService();
   User? user;
+  DatabaseService database = DatabaseService();
+  GetValues? dbGetter;
+  List? tileItems;
 
   @override
   void initState() {
     user = FirebaseAuth.instance.currentUser;
-    //database.getUsers().listen((snapshot) {
-    //List<dynamic> users = snapshot.docs;
-    //dbGetter = GetValues(user: user!, users: users);
-    //setState(() {});
-    //});
+    database.getUsers().listen((snapshot) {
+      List<dynamic> users = snapshot.docs;
+      dbGetter = GetValues(user: user!, users: users);
+      setState(() {});
+    });
+    checkValuePeriodically();
     super.initState();
+  }
+
+  List<List<dynamic>> transformList(List<dynamic> input) {
+    var frequencyMap = <dynamic, int>{};
+
+    for (var element in input) {
+      frequencyMap[element] = (frequencyMap[element] ?? 0) + 1;
+    }
+
+    return frequencyMap.entries.map((e) => [e.key, e.value]).toList();
+  }
+
+  void checkValuePeriodically() async {
+    while (dbGetter?.getUser() == null) {
+      await Future.delayed(Duration(milliseconds: 100));
+    }
+    tileItems = transformList(dbGetter!.getUser()!.items);
+
+    setState(() {});
   }
 
   @override
@@ -121,7 +149,31 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(height: 20),
+              tileItems != null
+                  ? SingleChildScrollView(
+                      child: SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        height: MediaQuery.sizeOf(context).height - 175,
+                        child: ListView(
+                          children: [
+                            ListView.builder(
+                                physics: const ScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: tileItems!.length,
+                                itemBuilder: (context, index) {
+                                  final tile = tileItems![index];
+                                  return TileBuilder(
+                                    index: index,
+                                    tile: tile,
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
+                    )
+                  : CircularProgressIndicator()
             ],
           ),
         ),

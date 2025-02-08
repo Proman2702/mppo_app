@@ -217,7 +217,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                           height: 45,
                           child: TextField(
                             style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                            maxLength: 30,
+                            maxLength: 23,
                             onChanged: (value) => setState(() {
                               productType = value;
                             }),
@@ -256,11 +256,11 @@ class _GeneratorPageState extends State<GeneratorPage> {
                       children: [
                         const SizedBox(width: 10),
                         SizedBox(
-                          width: 240,
+                          width: 270,
                           height: 45,
                           child: TextField(
                             style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                            maxLength: 30,
+                            maxLength: 23,
                             onChanged: (value) => setState(() {
                               productName = value;
                             }),
@@ -450,7 +450,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                                   contentPadding: EdgeInsets.only(bottom: 10),
                                   counterText: "",
                                   border: InputBorder.none,
-                                  labelText: "В кг/мл",
+                                  labelText: "В г/мл",
                                   labelStyle:
                                       TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
                                 ),
@@ -487,7 +487,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                                 },
                               ),
                             ),
-                            Text("кг", style: TextStyle(color: Color(CustomColors.bright)))
+                            Text("г", style: TextStyle(color: Color(CustomColors.bright)))
                           ],
                         ),
                         const SizedBox(width: 20),

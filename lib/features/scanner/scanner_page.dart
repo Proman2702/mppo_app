@@ -94,7 +94,9 @@ class _ScannerPageState extends State<ScannerPage> {
               ),
               leading: IconButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Navigator.of(context).pushReplacementNamed('/');
+                    });
                   },
                   icon: const Icon(Icons.arrow_back, color: Colors.white, size: 35)),
               shape: const RoundedRectangleBorder(
@@ -118,9 +120,9 @@ class _ScannerPageState extends State<ScannerPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 70,
-                            padding: const EdgeInsets.only(left: 15),
+                            padding: const EdgeInsets.only(left: 15, right: 15),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 5)],
@@ -138,7 +140,7 @@ class _ScannerPageState extends State<ScannerPage> {
                           ),
                           const SizedBox(width: 20),
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 70,
                             alignment: Alignment.centerLeft,
                             decoration: const BoxDecoration(
@@ -156,7 +158,7 @@ class _ScannerPageState extends State<ScannerPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 40,
                             padding: const EdgeInsets.only(left: 15),
                             alignment: Alignment.centerLeft,
@@ -176,7 +178,7 @@ class _ScannerPageState extends State<ScannerPage> {
                           ),
                           const SizedBox(width: 20),
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 40,
                             alignment: Alignment.centerLeft,
                             decoration: const BoxDecoration(
@@ -197,9 +199,10 @@ class _ScannerPageState extends State<ScannerPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              width: 150,
+                              width: 160,
                               height: 80,
-                              alignment: Alignment.center,
+                              padding: const EdgeInsets.only(left: 15, right: 15),
+                              alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(boxShadow: const [
                                 BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 5)
                               ], borderRadius: BorderRadius.circular(20), gradient: BackgroundGrad()),
@@ -217,9 +220,10 @@ class _ScannerPageState extends State<ScannerPage> {
                               )),
                           const SizedBox(width: 20),
                           Container(
-                              width: 150,
+                              width: 160,
                               height: 80,
-                              alignment: Alignment.center,
+                              padding: const EdgeInsets.only(left: 15, right: 15),
+                              alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(boxShadow: const [
                                 BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 5)
                               ], borderRadius: BorderRadius.circular(20), gradient: BackgroundGrad()),
@@ -242,7 +246,7 @@ class _ScannerPageState extends State<ScannerPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 40,
                             padding: const EdgeInsets.only(left: 15),
                             alignment: Alignment.centerLeft,
@@ -262,7 +266,7 @@ class _ScannerPageState extends State<ScannerPage> {
                           ),
                           const SizedBox(width: 20),
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 40,
                             alignment: Alignment.centerLeft,
                             decoration: const BoxDecoration(
@@ -284,7 +288,7 @@ class _ScannerPageState extends State<ScannerPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 40,
                             padding: const EdgeInsets.only(left: 15),
                             alignment: Alignment.centerLeft,
@@ -304,7 +308,7 @@ class _ScannerPageState extends State<ScannerPage> {
                           ),
                           const SizedBox(width: 20),
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 40,
                             alignment: Alignment.centerLeft,
                             decoration: const BoxDecoration(
@@ -326,7 +330,7 @@ class _ScannerPageState extends State<ScannerPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 80,
                             alignment: Alignment.topLeft,
                             padding: const EdgeInsets.all(15),
@@ -346,7 +350,7 @@ class _ScannerPageState extends State<ScannerPage> {
                           ),
                           const SizedBox(width: 20),
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 80,
                             alignment: Alignment.centerLeft,
                             decoration: const BoxDecoration(
@@ -363,12 +367,12 @@ class _ScannerPageState extends State<ScannerPage> {
                           )
                         ],
                       ),
-                      const SizedBox(height: 30),
+                      SizedBox(height: MediaQuery.sizeOf(context).height / 6),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 40,
                             decoration: BoxDecoration(
                                 color: Color(CustomColors.delete),
@@ -387,7 +391,9 @@ class _ScannerPageState extends State<ScannerPage> {
                                     if (firstInd != -1) {
                                       curItems.removeAt(firstInd);
                                       await database.updateUser(curUser.copyWith(items: curItems));
-                                      Navigator.of(context).pop();
+                                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                                        Navigator.of(context).pushReplacementNamed('/');
+                                      });
                                       showModalBottomSheet(
                                           context: context, builder: (context) => QrInfoSheet(type: 'remove'));
                                     } else {
@@ -405,10 +411,10 @@ class _ScannerPageState extends State<ScannerPage> {
                           ),
                           const SizedBox(width: 20),
                           Container(
-                            width: 150,
+                            width: 160,
                             height: 40,
                             decoration: BoxDecoration(
-                                color: Color(CustomColors.main),
+                                color: Color(CustomColors.bright),
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: const [
                                   BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 5)
@@ -421,7 +427,9 @@ class _ScannerPageState extends State<ScannerPage> {
                                     curItems.add(jsonEncode(qrData));
                                     await database.updateUser(curUser.copyWith(items: curItems));
                                   }
-                                  Navigator.of(context).pop();
+                                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                                    Navigator.of(context).pushReplacementNamed('/');
+                                  });
                                   showModalBottomSheet(
                                       context: context, builder: (context) => QrInfoSheet(type: 'add'));
                                 },
@@ -434,34 +442,6 @@ class _ScannerPageState extends State<ScannerPage> {
                           )
                         ],
                       ),
-                      Stack(
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.only(left: 30, top: 20),
-                              child: Transform.rotate(
-                                angle: 2 * math.pi,
-                                child: Image.asset(
-                                  "assets/images/hexagon_grad.png",
-                                  scale: 2,
-                                  opacity: const AlwaysStoppedAnimation(0.1),
-                                  alignment: Alignment.center,
-                                  color: Color(CustomColors.main),
-                                ),
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(right: 0, bottom: 0),
-                              child: Transform.rotate(
-                                angle: 2 * math.pi,
-                                child: Image.asset(
-                                  "assets/images/hexagon_grad.png",
-                                  scale: 2.5,
-                                  opacity: const AlwaysStoppedAnimation(0.1),
-                                  alignment: Alignment.center,
-                                  color: Color(CustomColors.main),
-                                ),
-                              )),
-                        ],
-                      )
                     ],
                   )
                 : const NullBody()));
