@@ -285,7 +285,7 @@ class TileViewDialog extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Text(
                         //'${qrData!['productType']}',
-                        '${jsonDecode(tile[0])['allergy'].keys.where((key) => jsonDecode(tile[0])['allergy'][key] == true).toList().join(', ')}'
+                        '${!jsonDecode(tile[0])['allergy'].values.every((value) => !value as bool) ? jsonDecode(tile[0])['allergy'].keys.where((key) => jsonDecode(tile[0])['allergy'][key] == true).toList().join(', ') : 'Нет'}'
                             .replaceAll('lactose', 'лактоза')
                             .replaceAll('gluten', 'глютен')
                             .replaceAll('other', 'прочее'),

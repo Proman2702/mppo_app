@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/features/drawer.dart';
+import 'package:mppo_app/constants.dart' as consts;
 import 'package:mppo_app/features/home/tile_builder.dart';
 import 'package:mppo_app/repositories/auth/auth_service.dart';
 import 'package:mppo_app/repositories/database/database_service.dart';
@@ -21,11 +22,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final TextEditingController _controller = TextEditingController();
+
   AuthService auth = AuthService();
   User? user;
   DatabaseService database = DatabaseService();
   GetValues? dbGetter;
   List? tileItems;
+  List? filteredItems;
 
   @override
   void initState() {
@@ -75,6 +79,28 @@ class _HomePageState extends State<HomePage> {
 
     tileItems = transformList(dbGetter!.getUser()!.items);
     setState(() {});
+  }
+
+  void filterSearch(String value) {
+    if (value.startsWith('/')) {
+      filteredItems = tileItems!
+          .where(
+            (item) => jsonDecode(item[0])['productType']
+                .toLowerCase()
+                .contains(value.split('/').last.trimLeft().toLowerCase()),
+          )
+          .toList();
+    } else {
+      filteredItems = tileItems!
+          .where(
+            (item) => jsonDecode(item[0])['productName'].toLowerCase().contains(value.toLowerCase()),
+          )
+          .toList();
+    }
+
+    if (value == '') {
+      filteredItems = null;
+    }
   }
 
   @override
@@ -145,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                     Icon(Icons.search, size: 24, color: Color(CustomColors.bright)),
                     const SizedBox(width: 8),
                     SizedBox(
-                      width: 300,
+                      width: 244,
                       height: 40,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -153,20 +179,47 @@ class _HomePageState extends State<HomePage> {
                           constraints: const BoxConstraints.expand(width: 400), // 18 - fontSize
                           child: TextField(
                             style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                            maxLength: 20,
-                            onChanged: (value) => setState(() {}),
+                            maxLength: 30,
+                            controller: _controller,
+                            onChanged: (value) {
+                              filterSearch(value);
+                              setState(() {});
+                            },
                             decoration: const InputDecoration(
                               floatingLabelBehavior: FloatingLabelBehavior.never,
                               contentPadding: EdgeInsets.only(bottom: 14),
                               counterText: "",
                               border: InputBorder.none,
-                              labelText: "Поиск",
+                              labelText: "Поиск (/ по типу)",
                               labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
                             ),
                           ),
                         ),
                       ),
                     ),
+                    const SizedBox(width: 8),
+                    PopupMenuButton<String>(
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        size: 24,
+                        color: Color(CustomColors.bright),
+                      ),
+                      onSelected: (String value) {
+                        _controller.text = '/$value';
+                        filterSearch('/$value');
+                        setState(() {});
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return consts.defaultTypes.map<PopupMenuItem<String>>((String value) {
+                          return PopupMenuItem<String>(
+                            padding: EdgeInsets.all(8),
+                            height: 5,
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList();
+                      },
+                    )
                   ],
                 ),
               ),
@@ -181,9 +234,9 @@ class _HomePageState extends State<HomePage> {
                             ListView.builder(
                                 physics: const ScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: tileItems!.length,
+                                itemCount: filteredItems?.length ?? tileItems!.length,
                                 itemBuilder: (context, index) {
-                                  final tile = tileItems![index];
+                                  final tile = filteredItems?[index] ?? tileItems![index];
                                   return TileBuilder(
                                     index: index,
                                     tile: tile,

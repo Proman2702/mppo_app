@@ -331,9 +331,9 @@ class _ScannerPageState extends State<ScannerPage> {
                         children: [
                           Container(
                             width: 160,
-                            height: 80,
-                            alignment: Alignment.topLeft,
-                            padding: const EdgeInsets.all(15),
+                            height: 40,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(left: 15),
                             decoration: BoxDecoration(
                               boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 5)],
                               borderRadius: BorderRadius.circular(20),
@@ -351,15 +351,18 @@ class _ScannerPageState extends State<ScannerPage> {
                           const SizedBox(width: 20),
                           Container(
                             width: 160,
-                            height: 80,
+                            height: 40,
                             alignment: Alignment.centerLeft,
                             decoration: const BoxDecoration(
                                 border: Border(bottom: BorderSide(width: 2, color: Colors.black12))),
                             child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
+                              scrollDirection: Axis.horizontal,
                               child: Text(
                                 //'${qrData!['productType']}',
-                                '${qrData!['allergy'].keys.where((key) => qrData!['allergy'][key] == true).toList().join(' ')}',
+                                '${!qrData!['allergy'].values.every((value) => !value as bool) ? qrData!['allergy'].keys.where((key) => qrData!['allergy'][key] == true).toList().join(', ') : 'Нет'}'
+                                    .replaceAll('lactose', 'лактоза')
+                                    .replaceAll('gluten', 'глютен')
+                                    .replaceAll('other', 'прочее'),
                                 style: TextStyle(
                                     color: Color(CustomColors.bright), fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -367,7 +370,7 @@ class _ScannerPageState extends State<ScannerPage> {
                           )
                         ],
                       ),
-                      SizedBox(height: MediaQuery.sizeOf(context).height / 6),
+                      SizedBox(height: MediaQuery.sizeOf(context).height / 4.5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
