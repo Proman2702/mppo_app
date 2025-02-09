@@ -6,8 +6,8 @@ import 'package:mppo_app/etc/colors/colors.dart';
 // Здесь реализовано всплывающее окно с уведомлением об ошибке
 // --------------------------
 
-class QrInfoSheet extends StatelessWidget {
-  const QrInfoSheet({super.key, required this.type});
+class InfoSheet extends StatelessWidget {
+  const InfoSheet({super.key, required this.type});
 
   final String type;
 
@@ -21,6 +21,10 @@ class QrInfoSheet extends StatelessWidget {
         return 'Продукт успешно удален!';
       case 'none':
         return 'Такого продукта не существует!';
+      case 'delete':
+        return 'Продукты успешно удалены!';
+      case 'no_delete':
+        return 'Не выбрано количество!';
     }
     return 'Что-то пошло не так';
   }

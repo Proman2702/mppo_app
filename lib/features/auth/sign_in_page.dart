@@ -3,7 +3,7 @@ import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/etc/colors/gradients/tiles.dart';
 import 'package:mppo_app/features/auth/auth_error_hander.dart';
-import 'package:mppo_app/features/auth/auth_formats.dart';
+import 'package:mppo_app/constants.dart' as consts;
 import 'package:mppo_app/features/auth/email_notificator.dart';
 import 'package:mppo_app/etc/models/user.dart';
 import 'package:mppo_app/repositories/auth/auth_service.dart';
@@ -158,11 +158,11 @@ class _FirstPageState extends State<FirstPage> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: ConstrainedBox(
-                                      constraints: BoxConstraints.expand(width: AuthSettings().maxUsernameLength * 18),
+                                      constraints: BoxConstraints.expand(width: consts.maxUsernameLength * 18),
                                       child: TextField(
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
-                                        maxLength: AuthSettings().maxUsernameLength,
+                                        maxLength: consts.maxUsernameLength,
                                         onChanged: (value) => setState(() {
                                           username = value;
                                         }),
@@ -205,11 +205,11 @@ class _FirstPageState extends State<FirstPage> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: ConstrainedBox(
-                                      constraints: BoxConstraints.expand(width: AuthSettings().maxEmailLength * 18),
+                                      constraints: BoxConstraints.expand(width: consts.maxEmailLength * 18),
                                       child: TextField(
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
-                                        maxLength: AuthSettings().maxEmailLength,
+                                        maxLength: consts.maxEmailLength,
                                         onChanged: (value) => setState(() {
                                           email = value;
                                         }),
@@ -254,12 +254,12 @@ class _FirstPageState extends State<FirstPage> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: ConstrainedBox(
-                                      constraints: BoxConstraints.expand(width: AuthSettings().maxPasswordLength * 18),
+                                      constraints: BoxConstraints.expand(width: consts.maxPasswordLength * 18),
                                       child: TextField(
                                         obscureText: obscureBool,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
-                                        maxLength: AuthSettings().maxPasswordLength,
+                                        maxLength: consts.maxPasswordLength,
                                         onChanged: (value) => setState(() {
                                           password = value;
                                         }),

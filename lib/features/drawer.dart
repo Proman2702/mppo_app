@@ -211,12 +211,12 @@ class _AppDrawerState extends State<AppDrawer> {
                   child: Row(
                     children: [
                       Icon(
-                        Icons.history,
+                        Icons.attach_file,
                         color: Colors.white,
                       ),
                       SizedBox(width: 15),
                       Text(
-                        "История",
+                        "Список покупок",
                         style: TextStyle(
                             fontFamily: 'Jura', fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
                       )

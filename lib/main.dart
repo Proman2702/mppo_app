@@ -7,7 +7,7 @@ import 'package:mppo_app/features/scanner/camera.dart';
 import 'package:mppo_app/features/scanner/generator_page.dart';
 import 'package:mppo_app/features/scanner/scanner_page.dart';
 import 'package:mppo_app/features/settings/settings_page.dart';
-import 'package:mppo_app/features/stats/history_page.dart';
+import 'package:mppo_app/features/stats/buying_note_page.dart';
 import 'package:mppo_app/features/stats/stats_page.dart';
 import 'package:mppo_app/features/wrapper.dart';
 import 'firebase_options.dart';

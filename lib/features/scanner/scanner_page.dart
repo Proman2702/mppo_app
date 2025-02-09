@@ -7,7 +7,7 @@ import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/etc/models/user.dart';
 import 'package:mppo_app/features/drawer.dart';
-import 'package:mppo_app/features/scanner/qr_info_handler.dart';
+import 'package:mppo_app/features/qr_info_handler.dart';
 import 'package:mppo_app/repositories/database/database_service.dart';
 import 'package:mppo_app/repositories/database/get_values.dart';
 
@@ -391,14 +391,12 @@ class _ScannerPageState extends State<ScannerPage> {
                                     if (firstInd != -1) {
                                       curItems.removeAt(firstInd);
                                       await database.updateUser(curUser.copyWith(items: curItems));
-                                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                                        Navigator.of(context).pushReplacementNamed('/');
-                                      });
+                                      Navigator.of(context).pushReplacementNamed('/');
                                       showModalBottomSheet(
-                                          context: context, builder: (context) => QrInfoSheet(type: 'remove'));
+                                          context: context, builder: (context) => InfoSheet(type: 'remove'));
                                     } else {
                                       showModalBottomSheet(
-                                          context: context, builder: (context) => QrInfoSheet(type: 'none'));
+                                          context: context, builder: (context) => InfoSheet(type: 'none'));
                                     }
                                   }
                                 },
@@ -430,8 +428,7 @@ class _ScannerPageState extends State<ScannerPage> {
                                   WidgetsBinding.instance.addPostFrameCallback((_) {
                                     Navigator.of(context).pushReplacementNamed('/');
                                   });
-                                  showModalBottomSheet(
-                                      context: context, builder: (context) => QrInfoSheet(type: 'add'));
+                                  showModalBottomSheet(context: context, builder: (context) => InfoSheet(type: 'add'));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent, shadowColor: Colors.transparent),

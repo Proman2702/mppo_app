@@ -6,7 +6,7 @@ import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/features/auth/auth_error_hander.dart';
 import 'package:mppo_app/features/settings/confirmation_dialog.dart';
-import 'package:mppo_app/features/auth/auth_formats.dart';
+import 'package:mppo_app/constants.dart' as consts;
 import 'package:mppo_app/repositories/auth/auth_service.dart';
 import 'package:mppo_app/repositories/database/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -269,11 +269,11 @@ class _SettingsPageState extends State<SettingsPage> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: ConstrainedBox(
-                  constraints: BoxConstraints.expand(width: AuthSettings().maxPasswordLength * 18),
+                  constraints: BoxConstraints.expand(width: consts.maxPasswordLength * 18),
                   child: TextField(
                     obscureText: false,
                     style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                    maxLength: AuthSettings().maxPasswordLength,
+                    maxLength: consts.maxPasswordLength,
                     onChanged: (value) => setState(() {
                       password = value;
                     }),
@@ -346,11 +346,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: ConstrainedBox(
-                      constraints: BoxConstraints.expand(width: AuthSettings().maxPasswordLength * 18),
+                      constraints: BoxConstraints.expand(width: consts.maxPasswordLength * 18),
                       child: TextField(
                         obscureText: false,
                         style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                        maxLength: AuthSettings().maxPasswordLength,
+                        maxLength: consts.maxPasswordLength,
                         onChanged: (value) => setState(() {
                           password = value;
                         }),
@@ -386,11 +386,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: ConstrainedBox(
-                      constraints: BoxConstraints.expand(width: AuthSettings().maxPasswordLength * 18),
+                      constraints: BoxConstraints.expand(width: consts.maxPasswordLength * 18),
                       child: TextField(
                         obscureText: false,
                         style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                        maxLength: AuthSettings().maxPasswordLength,
+                        maxLength: consts.maxPasswordLength,
                         onChanged: (value) => setState(() {
                           newPassword = value;
                         }),
@@ -426,11 +426,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: ConstrainedBox(
-                      constraints: BoxConstraints.expand(width: AuthSettings().maxPasswordLength * 18),
+                      constraints: BoxConstraints.expand(width: consts.maxPasswordLength * 18),
                       child: TextField(
                         obscureText: false,
                         style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                        maxLength: AuthSettings().maxPasswordLength,
+                        maxLength: consts.maxPasswordLength,
                         onChanged: (value) => setState(() {
                           newPassword2 = value;
                         }),

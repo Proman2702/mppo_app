@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,20 +41,39 @@ class _HomePageState extends State<HomePage> {
 
   List<List<dynamic>> transformList(List<dynamic> input) {
     var frequencyMap = <dynamic, int>{};
+    List<List<dynamic>> result = [];
 
     for (var element in input) {
-      frequencyMap[element] = (frequencyMap[element] ?? 0) + 1;
+      if (jsonDecode(element)['numOption'] == 1) {
+        result.add([element, 1]);
+      } else {
+        frequencyMap[element] = (frequencyMap[element] ?? 0) + 1;
+      }
     }
-
-    return frequencyMap.entries.map((e) => [e.key, e.value]).toList();
+    result.addAll(frequencyMap.entries.map((e) => [e.key, e.value]));
+    return result;
   }
 
-  void checkValuePeriodically() async {
+  void checkValuePeriodically({bool? delete, List? tile}) async {
     while (dbGetter?.getUser() == null) {
       await Future.delayed(Duration(milliseconds: 100));
     }
-    tileItems = transformList(dbGetter!.getUser()!.items);
 
+    if (delete != null) {
+      var tileItems = dbGetter!.getUser()!.items;
+      var c = 0;
+      tileItems.removeWhere((item) {
+        if (item == tile![0] && c < tile[1]) {
+          c++;
+          return true;
+        }
+        return false;
+      });
+      await database.updateUser(dbGetter!.getUser()!.copyWith(items: tileItems));
+      setState(() {});
+    }
+
+    tileItems = transformList(dbGetter!.getUser()!.items);
     setState(() {});
   }
 
@@ -167,6 +187,7 @@ class _HomePageState extends State<HomePage> {
                                   return TileBuilder(
                                     index: index,
                                     tile: tile,
+                                    updater: checkValuePeriodically,
                                   );
                                 }),
                           ],

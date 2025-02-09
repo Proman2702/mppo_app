@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
+import 'package:mppo_app/constants.dart' as consts;
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/etc/colors/gradients/tiles.dart';
 import 'package:mppo_app/features/drawer.dart';
@@ -29,6 +30,8 @@ class _GeneratorPageState extends State<GeneratorPage> {
 
   final GlobalKey _qrkey = GlobalKey();
   String? _path;
+
+  final TextEditingController _controller = TextEditingController();
 
   Map<String, dynamic> qrMap = {
     'productType': null,
@@ -219,49 +222,6 @@ class _GeneratorPageState extends State<GeneratorPage> {
                             style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
                             maxLength: 23,
                             onChanged: (value) => setState(() {
-                              productType = value;
-                            }),
-                            decoration: const InputDecoration(
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
-                              contentPadding: EdgeInsets.only(bottom: 10),
-                              counterText: "",
-                              border: InputBorder.none,
-                              labelText: "...",
-                              labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Text('Тип продукта', style: TextStyle(color: Color(CustomColors.bright), fontSize: 12)),
-                  )
-                ],
-              ),
-              const SizedBox(height: 5),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 45,
-                    width: 300,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Color(CustomColors.main), width: 5),
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: 270,
-                          height: 45,
-                          child: TextField(
-                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
-                            maxLength: 23,
-                            onChanged: (value) => setState(() {
                               productName = value;
                             }),
                             decoration: const InputDecoration(
@@ -280,6 +240,59 @@ class _GeneratorPageState extends State<GeneratorPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Text('Название продукта', style: TextStyle(color: Color(CustomColors.bright), fontSize: 12)),
+                  )
+                ],
+              ),
+              const SizedBox(height: 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 45,
+                    width: 300,
+                    padding: EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Color(CustomColors.main), width: 5),
+                      color: Colors.white,
+                    ),
+                    child: TextField(
+                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17, color: Colors.black87),
+                      maxLength: 20,
+                      controller: _controller,
+                      onChanged: (value) => setState(() {
+                        productType = value;
+                      }),
+                      decoration: InputDecoration(
+                        suffixIcon: PopupMenuButton<String>(
+                          icon: Icon(Icons.arrow_drop_down),
+                          onSelected: (String value) {
+                            _controller.text = value;
+                            productType = value;
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return consts.defaultTypes.map<PopupMenuItem<String>>((String value) {
+                              return PopupMenuItem<String>(
+                                padding: EdgeInsets.all(8),
+                                height: 5,
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList();
+                          },
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        contentPadding: EdgeInsets.only(bottom: 10),
+                        counterText: "",
+                        border: InputBorder.none,
+                        labelText: "...",
+                        labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Text('Тип продукта', style: TextStyle(color: Color(CustomColors.bright), fontSize: 12)),
                   )
                 ],
               ),
@@ -740,7 +753,13 @@ class _GeneratorPageState extends State<GeneratorPage> {
                         if (DateTime.parse(formatDate(createdTime!))
                             .isBefore(DateTime.parse(formatDate(expiredTime!)))) {
                           qrMap['productType'] = productType;
-                          qrMap['productName'] = productName;
+
+                          if (consts.defaultTypes.contains(productName)) {
+                            qrMap['productName'] = 'Прочее';
+                          } else {
+                            qrMap['productName'] = productName;
+                          }
+
                           qrMap['createdTime'] = createdTime;
                           qrMap['expiredTime'] = expiredTime;
                           qrMap['weight'] = int.parse(weight!);
