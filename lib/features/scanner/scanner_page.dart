@@ -388,12 +388,27 @@ class _ScannerPageState extends State<ScannerPage> {
                                   if (dbGetter?.getUser()?.username != null) {
                                     CustomUser curUser = dbGetter!.getUser()!;
                                     var curItems = curUser.items;
+                                    var curHistory = curUser.history;
 
                                     var firstInd = curItems.indexOf(jsonEncode(qrData));
 
                                     if (firstInd != -1) {
                                       curItems.removeAt(firstInd);
-                                      await database.updateUser(curUser.copyWith(items: curItems));
+
+                                      curHistory.add(jsonEncode(
+                                        {
+                                          "productType": qrData!['productType'],
+                                          'date':
+                                              '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+                                          'type': 'deleted'
+                                        },
+                                      ));
+
+                                      if (curHistory.length > 1000) {
+                                        curHistory.length = 1000;
+                                      }
+                                      await database.updateUser(curUser.copyWith(items: curItems, history: curHistory));
+
                                       Navigator.of(context).pushReplacementNamed('/');
                                       showModalBottomSheet(
                                           context: context, builder: (context) => InfoSheet(type: 'remove'));
@@ -426,11 +441,22 @@ class _ScannerPageState extends State<ScannerPage> {
                                     CustomUser curUser = dbGetter!.getUser()!;
                                     var curItems = curUser.items;
                                     curItems.add(jsonEncode(qrData));
-                                    await database.updateUser(curUser.copyWith(items: curItems));
+                                    var curHistory = curUser.history;
+
+                                    curHistory.add(jsonEncode(
+                                      {
+                                        "productType": qrData!['productType'],
+                                        'date': '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+                                        'type': 'added'
+                                      },
+                                    ));
+
+                                    if (curHistory.length > 1000) {
+                                      curHistory.length = 1000;
+                                    }
+                                    await database.updateUser(curUser.copyWith(items: curItems, history: curHistory));
                                   }
-                                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                                    Navigator.of(context).pushReplacementNamed('/');
-                                  });
+                                  Navigator.of(context).pushReplacementNamed('/');
                                   showModalBottomSheet(context: context, builder: (context) => InfoSheet(type: 'add'));
                                 },
                                 style: ElevatedButton.styleFrom(

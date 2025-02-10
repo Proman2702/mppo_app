@@ -30,6 +30,7 @@ class _HistoryPageState extends State<HistoryPage> {
     database.getUsers().listen((snapshot) {
       List<dynamic> users = snapshot.docs;
       dbGetter = GetValues(user: user!, users: users);
+      setState(() {});
     });
   }
 

@@ -1,6 +1,13 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
+import 'package:mppo_app/etc/models/user.dart';
 import 'package:mppo_app/features/qr_info_handler.dart';
+import 'package:mppo_app/repositories/database/database_service.dart';
+import 'package:mppo_app/repositories/database/get_values.dart';
 
 class DeleteTileDialog extends StatefulWidget {
   final List tile;
@@ -14,6 +21,22 @@ class DeleteTileDialog extends StatefulWidget {
 
 class _DeleteTileDialogState extends State<DeleteTileDialog> {
   double _deleteCount = 0;
+
+  String? qrValue;
+  Map<String, dynamic>? qrData;
+  User? user;
+  final database = DatabaseService();
+  GetValues? dbGetter;
+
+  @override
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser;
+    database.getUsers().listen((snapshot) {
+      List<dynamic> users = snapshot.docs;
+      dbGetter = GetValues(user: user!, users: users);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +102,35 @@ class _DeleteTileDialogState extends State<DeleteTileDialog> {
             height: 35,
             width: 120,
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_deleteCount.toInt() != 0) {
-                  widget.updater(delete: true, tile: [widget.tile[0], _deleteCount.toInt()]);
-                  Navigator.of(context).pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
-                  showModalBottomSheet(context: context, builder: (context) => InfoSheet(type: 'delete'));
+                  if (dbGetter?.getUser() != null) {
+                    CustomUser curUser = dbGetter!.getUser()!;
+
+                    var curHistory = curUser.history;
+
+                    for (int i = 0; i < _deleteCount.toInt(); i++) {
+                      log('deleted');
+                      curHistory.add(jsonEncode(
+                        {
+                          "productType": jsonDecode(widget.tile[0])['productType'],
+                          'date': '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+                          'type': 'deleted'
+                        },
+                      ));
+                    }
+
+                    if (curHistory.length > 1000) {
+                      curHistory.length = 1000;
+                    }
+                    await database.updateUser(curUser.copyWith(history: curHistory));
+
+                    widget.updater(delete: true, tile: [widget.tile[0], _deleteCount.toInt()]);
+                    Navigator.of(context).pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
+                    showModalBottomSheet(context: context, builder: (context) => InfoSheet(type: 'delete'));
+                  } else {
+                    showModalBottomSheet(context: context, builder: (context) => InfoSheet(type: ''));
+                  }
                 } else {
                   showModalBottomSheet(context: context, builder: (context) => InfoSheet(type: 'no_delete'));
                 }
