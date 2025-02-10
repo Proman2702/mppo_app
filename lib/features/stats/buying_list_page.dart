@@ -119,10 +119,12 @@ class _HistoryPageState extends State<HistoryPage> {
                                           color: Color(0xFF32E474),
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold,
-                                          height: 1.6),
+                                          height: 1.2),
                                     ),
                                   ),
-                                  SizedBox(
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.only(bottom: 5),
                                     height: 40,
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.vertical,

@@ -290,103 +290,111 @@ class _StatsPageState extends State<StatsPage> {
               ),
               SizedBox(height: 25),
               historyItems != null
-                  ? SizedBox(
-                      width: 360,
-                      height: MediaQuery.sizeOf(context).height / 1.5,
-                      child: BarChart(BarChartData(
-                          barGroups: [
-                            BarChartGroupData(x: 0, barRods: [
-                              BarChartRodData(toY: filterItems(historyItems!)["added"]!.toDouble(), color: Colors.green)
-                            ]),
-                            BarChartGroupData(x: 1, barRods: [
-                              BarChartRodData(toY: filterItems(historyItems!)["deleted"]!.toDouble(), color: Colors.red)
-                            ]),
-                            BarChartGroupData(x: 2, barRods: [
-                              BarChartRodData(
-                                toY: filterItems(historyItems!)["difference"]!.toDouble(),
-                                color: Colors.blue,
-                              )
-                            ]),
-                          ],
-                          titlesData: FlTitlesData(
-                            topTitles: AxisTitles(
-                              sideTitles: SideTitles(showTitles: false), // Убираем цифры сверху (ось X)
-                            ),
-                            leftTitles: AxisTitles(
-                                sideTitles: SideTitles(
+                  ? !historyItems!.isEmpty
+                      ? SizedBox(
+                          width: 360,
+                          height: MediaQuery.sizeOf(context).height / 1.5,
+                          child: BarChart(BarChartData(
+                              barGroups: [
+                                BarChartGroupData(x: 0, barRods: [
+                                  BarChartRodData(
+                                      toY: filterItems(historyItems!)["added"]!.toDouble(), color: Colors.green)
+                                ]),
+                                BarChartGroupData(x: 1, barRods: [
+                                  BarChartRodData(
+                                      toY: filterItems(historyItems!)["deleted"]!.toDouble(), color: Colors.red)
+                                ]),
+                                BarChartGroupData(x: 2, barRods: [
+                                  BarChartRodData(
+                                    toY: filterItems(historyItems!)["difference"]!.toDouble(),
+                                    color: Colors.blue,
+                                  )
+                                ]),
+                              ],
+                              titlesData: FlTitlesData(
+                                topTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false), // Убираем цифры сверху (ось X)
+                                ),
+                                leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                        showTitles: true,
+                                        getTitlesWidget: (value, _) {
+                                          if (value == filterItems(historyItems!)["added"]!.toDouble() ||
+                                              value == filterItems(historyItems!)["deleted"]!.toDouble() ||
+                                              value == filterItems(historyItems!)["difference"]!.toDouble()) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(right: 5.0),
+                                              child: Text(
+                                                '${value.toInt().toString()}',
+                                                textAlign: TextAlign.end,
+                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                              ),
+                                            ); // Показываем только нужные метки
+                                          }
+                                          return Container(); // Скрываем остальные
+                                        },
+                                        reservedSize: 30)),
+                                rightTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                  interval: historyItems!.length / (historyItems!.length / 3).toDouble(),
+                                  reservedSize: 30,
+                                  showTitles: true,
+                                )),
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    interval: 10,
+                                    reservedSize: 100,
                                     showTitles: true,
                                     getTitlesWidget: (value, _) {
-                                      if (value == filterItems(historyItems!)["added"]!.toDouble() ||
-                                          value == filterItems(historyItems!)["deleted"]!.toDouble() ||
-                                          value == filterItems(historyItems!)["difference"]!.toDouble()) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(right: 5.0),
-                                          child: Text(
-                                            '${value.toInt().toString()}',
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                          ),
-                                        ); // Показываем только нужные метки
+                                      switch (value.toInt()) {
+                                        case 0:
+                                          return Container(
+                                              alignment: Alignment.topLeft,
+                                              height: 100,
+                                              width: 130,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(right: 40),
+                                                child: Text(
+                                                  "Добавлено продуктов",
+                                                ),
+                                              ));
+                                        case 1:
+                                          return Container(
+                                              alignment: Alignment.topCenter,
+                                              height: 100,
+                                              width: 130,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(),
+                                                child: Text(
+                                                  "Удалено продуктов",
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ));
+                                        case 2:
+                                          return Container(
+                                              alignment: Alignment.topRight,
+                                              height: 100,
+                                              width: 140,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left: 40),
+                                                child: Text(
+                                                  "Продуктов в наличии",
+                                                  textAlign: TextAlign.end,
+                                                ),
+                                              ));
+                                        default:
+                                          return Text("");
                                       }
-                                      return Container(); // Скрываем остальные
                                     },
-                                    reservedSize: 30)),
-                            rightTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                              interval: historyItems!.length / (historyItems!.length / 3).toDouble(),
-                              reservedSize: 30,
-                              showTitles: true,
-                            )),
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                interval: 10,
-                                reservedSize: 100,
-                                showTitles: true,
-                                getTitlesWidget: (value, _) {
-                                  switch (value.toInt()) {
-                                    case 0:
-                                      return Container(
-                                          alignment: Alignment.topLeft,
-                                          height: 100,
-                                          width: 130,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(right: 40),
-                                            child: Text(
-                                              "Добавлено продуктов",
-                                            ),
-                                          ));
-                                    case 1:
-                                      return Container(
-                                          alignment: Alignment.topCenter,
-                                          height: 100,
-                                          width: 130,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(),
-                                            child: Text(
-                                              "Удалено продуктов",
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ));
-                                    case 2:
-                                      return Container(
-                                          alignment: Alignment.topRight,
-                                          height: 100,
-                                          width: 140,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 40),
-                                            child: Text(
-                                              "Продуктов в наличии",
-                                              textAlign: TextAlign.end,
-                                            ),
-                                          ));
-                                    default:
-                                      return Text("");
-                                  }
-                                },
-                              ),
-                            ),
-                          ))),
-                    )
+                                  ),
+                                ),
+                              ))),
+                        )
+                      : Text(
+                          'История пуста!',
+                          style:
+                              TextStyle(color: Color(CustomColors.delete), fontWeight: FontWeight.bold, fontSize: 20),
+                        )
                   : CircularProgressIndicator()
             ],
           ),

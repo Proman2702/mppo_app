@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
 
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
@@ -238,7 +239,36 @@ class _SettingsPageState extends State<SettingsPage> {
                       ],
                     ),
                   ),
-                )
+                ),
+                SizedBox(height: 50),
+                Stack(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(left: 40, top: 35),
+                        child: Transform.rotate(
+                          angle: 2 * math.pi,
+                          child: Image.asset(
+                            "assets/images/hexagon_grad.png",
+                            scale: 1.6,
+                            opacity: const AlwaysStoppedAnimation(0.45),
+                            alignment: Alignment.center,
+                            color: Color.fromARGB(255, 187, 246, 233),
+                          ),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(right: 0, bottom: 0),
+                        child: Transform.rotate(
+                          angle: 2 * math.pi,
+                          child: Image.asset(
+                            "assets/images/hexagon_grad.png",
+                            scale: 1.9,
+                            opacity: const AlwaysStoppedAnimation(0.3),
+                            alignment: Alignment.center,
+                            color: Color.fromARGB(255, 187, 246, 233),
+                          ),
+                        )),
+                  ],
+                ),
               ],
             ),
           ),
