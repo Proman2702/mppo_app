@@ -131,7 +131,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                     }),
                                     decoration: const InputDecoration(
                                       floatingLabelBehavior: FloatingLabelBehavior.never,
-                                      contentPadding: EdgeInsets.only(bottom: 15),
+                                      contentPadding: EdgeInsets.only(bottom: 12),
                                       counterText: "",
                                       border: InputBorder.none,
                                       labelText: "Почта",
