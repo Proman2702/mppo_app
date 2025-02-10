@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
 import 'package:mppo_app/features/drawer.dart';
+import 'package:mppo_app/repositories/database/database_service.dart';
+import 'package:mppo_app/repositories/database/get_values.dart';
 
 class StatsPage extends StatefulWidget {
   const StatsPage({super.key});
@@ -12,6 +15,7 @@ class StatsPage extends StatefulWidget {
 
 class _StatsPageState extends State<StatsPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +58,7 @@ class _StatsPageState extends State<StatsPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [Text('бурда v2')],
+            children: [],
           ),
         ),
       ),
