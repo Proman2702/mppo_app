@@ -36,7 +36,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   void updateDb({bool add = false, required data}) async {
     while (dbGetter?.getUser() == null) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
 
     var buyingList = dbGetter!.getUser()!.buyingList;
@@ -90,19 +90,19 @@ class _HistoryPageState extends State<HistoryPage> {
       body: dbGetter?.getUser() != null
           ? ListView(
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ListView.builder(
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: EdgeInsets.only(bottom: 20, left: 15, right: 15),
+                      padding: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
                       child: Container(
-                        padding: EdgeInsets.only(left: 15, right: 15, top: 3, bottom: 3),
+                        padding: const EdgeInsets.only(left: 15, right: 15, top: 3, bottom: 3),
                         height: 85,
                         width: 340,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            color: Color(0xfff8f8f8),
-                            boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 3)]),
+                            color: const Color(0xfff8f8f8),
+                            boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 3)]),
                         child: Row(
                           children: [
                             SizedBox(
@@ -115,7 +115,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                     scrollDirection: Axis.horizontal,
                                     child: Text(
                                       jsonDecode(dbGetter!.getUser()!.buyingList[index])['name'],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Color(0xFF32E474),
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold,
@@ -124,7 +124,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                   ),
                                   Container(
                                     alignment: Alignment.centerLeft,
-                                    padding: EdgeInsets.only(bottom: 5),
+                                    padding: const EdgeInsets.only(bottom: 5),
                                     height: 40,
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.vertical,
@@ -141,7 +141,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                 ],
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             GestureDetector(
                               onTap: () {
                                 updateDb(add: false, data: dbGetter!.getUser()!.buyingList[index]);
@@ -151,7 +151,9 @@ class _HistoryPageState extends State<HistoryPage> {
                                 width: 50,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 3)],
+                                    boxShadow: const [
+                                      BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 3)
+                                    ],
                                     borderRadius: BorderRadius.circular(15)),
                                 child: Icon(
                                   Icons.delete,
@@ -171,7 +173,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 )
               ],
             )
-          : Center(child: CircularProgressIndicator()),
+          : const Center(child: CircularProgressIndicator()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(context: context, builder: (context) => ListDialog(updater: updateDb));

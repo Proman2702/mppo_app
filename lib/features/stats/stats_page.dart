@@ -45,7 +45,7 @@ class _StatsPageState extends State<StatsPage> {
 
   void checkValuePeriodically() async {
     while (dbGetter?.getUser() == null) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
 
     historyItems = dbGetter!.getUser()!.history.map((element) => jsonDecode(element)).toList();
@@ -84,20 +84,20 @@ class _StatsPageState extends State<StatsPage> {
     for (var entry in items) {
       log("$entry");
       DateTime entryDate = DateTime.parse(formatDate(entry["date"]));
-      if (entryDate.isAfter(dateFrom.subtract(Duration(days: 1))) &&
-          entryDate.isBefore(dateTo.add(Duration(days: 1)))) {
+      if (entryDate.isAfter(dateFrom.subtract(const Duration(days: 1))) &&
+          entryDate.isBefore(dateTo.add(const Duration(days: 1)))) {
         if (entry["type"] == "added") {
-          if (_controller.text == '' || _controller.text == 'Всего')
+          if (_controller.text == '' || _controller.text == 'Всего') {
             addedCount++;
-          else {
+          } else {
             if (_controller.text == entry["productType"]) {
               addedCount++;
             }
           }
         } else if (entry["type"] == "deleted") {
-          if (_controller.text == '' || _controller.text == 'Всего')
+          if (_controller.text == '' || _controller.text == 'Всего') {
             deletedCount++;
-          else {
+          } else {
             if (_controller.text == entry["productType"]) {
               deletedCount++;
             }
@@ -117,10 +117,6 @@ class _StatsPageState extends State<StatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (historyItems != null) {
-      var result = filterItems(historyItems!);
-    }
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -210,13 +206,13 @@ class _StatsPageState extends State<StatsPage> {
                         color: Color(CustomColors.bright),
                       ),
                       onSelected: (String value) {
-                        _controller.text = '$value';
+                        _controller.text = value;
                         setState(() {});
                       },
                       itemBuilder: (BuildContext context) {
                         return menuList.map<PopupMenuItem<String>>((String value) {
                           return PopupMenuItem<String>(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             height: 5,
                             value: value,
                             child: Text(value),
@@ -227,25 +223,25 @@ class _StatsPageState extends State<StatsPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
-                  SizedBox(width: 25),
+                  const SizedBox(width: 25),
                   Text(
                     'Дата от:',
                     style: TextStyle(color: Color(CustomColors.bright), fontWeight: FontWeight.bold),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     'Дата до:',
                     style: TextStyle(color: Color(CustomColors.bright), fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 25),
+                  const SizedBox(width: 25),
                 ],
               ),
               Row(
                 children: [
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   IconButton(
                       onPressed: () async {
                         _pickDate('from');
@@ -258,13 +254,13 @@ class _StatsPageState extends State<StatsPage> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 3)]),
+                        boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 3)]),
                     child: Text(
-                      '${dateFrom.day < 10 ? '0' + dateFrom.day.toString() : dateFrom.day}.${dateFrom.month < 10 ? '0' + dateFrom.month.toString() : dateFrom.month}.${dateFrom.year}',
+                      '${dateFrom.day < 10 ? '0${dateFrom.day}' : dateFrom.day}.${dateFrom.month < 10 ? '0${dateFrom.month}' : dateFrom.month}.${dateFrom.year}',
                       style: TextStyle(color: Color(CustomColors.bright), fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   IconButton(
                       onPressed: () {
                         _pickDate('to');
@@ -280,17 +276,17 @@ class _StatsPageState extends State<StatsPage> {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 3)]),
+                        boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 3)]),
                     child: Text(
-                        '${dateTo.day < 10 ? '0' + dateTo.day.toString() : dateTo.day}.${dateTo.month < 10 ? '0' + dateTo.month.toString() : dateTo.month}.${dateTo.year}',
+                        '${dateTo.day < 10 ? '0${dateTo.day}' : dateTo.day}.${dateTo.month < 10 ? '0${dateTo.month}' : dateTo.month}.${dateTo.year}',
                         style: TextStyle(color: Color(CustomColors.bright), fontWeight: FontWeight.bold, fontSize: 16)),
                   ),
-                  SizedBox(width: 25)
+                  const SizedBox(width: 25)
                 ],
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               historyItems != null
-                  ? !historyItems!.isEmpty
+                  ? historyItems!.isNotEmpty
                       ? SizedBox(
                           width: 360,
                           height: MediaQuery.sizeOf(context).height / 1.5,
@@ -312,7 +308,7 @@ class _StatsPageState extends State<StatsPage> {
                                 ]),
                               ],
                               titlesData: FlTitlesData(
-                                topTitles: AxisTitles(
+                                topTitles: const AxisTitles(
                                   sideTitles: SideTitles(showTitles: false), // Убираем цифры сверху (ось X)
                                 ),
                                 leftTitles: AxisTitles(
@@ -325,9 +321,9 @@ class _StatsPageState extends State<StatsPage> {
                                             return Padding(
                                               padding: const EdgeInsets.only(right: 5.0),
                                               child: Text(
-                                                '${value.toInt().toString()}',
+                                                value.toInt().toString(),
                                                 textAlign: TextAlign.end,
-                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                                               ),
                                             ); // Показываем только нужные метки
                                           }
@@ -352,8 +348,8 @@ class _StatsPageState extends State<StatsPage> {
                                               alignment: Alignment.topLeft,
                                               height: 100,
                                               width: 130,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(right: 40),
+                                              child: const Padding(
+                                                padding: EdgeInsets.only(right: 40),
                                                 child: Text(
                                                   "Добавлено продуктов",
                                                 ),
@@ -363,8 +359,8 @@ class _StatsPageState extends State<StatsPage> {
                                               alignment: Alignment.topCenter,
                                               height: 100,
                                               width: 130,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(),
+                                              child: const Padding(
+                                                padding: EdgeInsets.only(),
                                                 child: Text(
                                                   "Удалено продуктов",
                                                   textAlign: TextAlign.center,
@@ -375,15 +371,15 @@ class _StatsPageState extends State<StatsPage> {
                                               alignment: Alignment.topRight,
                                               height: 100,
                                               width: 140,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left: 40),
+                                              child: const Padding(
+                                                padding: EdgeInsets.only(left: 40),
                                                 child: Text(
                                                   "Продуктов в наличии",
                                                   textAlign: TextAlign.end,
                                                 ),
                                               ));
                                         default:
-                                          return Text("");
+                                          return const Text("");
                                       }
                                     },
                                   ),
@@ -395,7 +391,7 @@ class _StatsPageState extends State<StatsPage> {
                           style:
                               TextStyle(color: Color(CustomColors.delete), fontWeight: FontWeight.bold, fontSize: 20),
                         )
-                  : CircularProgressIndicator()
+                  : const CircularProgressIndicator()
             ],
           ),
         ),

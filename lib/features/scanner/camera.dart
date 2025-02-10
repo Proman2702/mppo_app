@@ -41,7 +41,7 @@ class _ScannerPageMenuState extends State<ScannerPageMenu> {
             centerTitle: true,
             backgroundColor: Colors.white,
             flexibleSpace: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))),
             ),
@@ -53,8 +53,8 @@ class _ScannerPageMenuState extends State<ScannerPageMenu> {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
             title: GradientText('Сканировать QR',
-                colors: [Color(0xFF32E474), Color(0xff38CACF)],
-                style: TextStyle(
+                colors: [const Color(0xFF32E474), const Color(0xff38CACF)],
+                style: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'Nunito',
                     fontSize: 32,

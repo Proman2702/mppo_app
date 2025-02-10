@@ -130,7 +130,7 @@ class _FirstPageState extends State<FirstPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           SizedBox(
                             width: 270,
                             child: Text(
@@ -158,7 +158,7 @@ class _FirstPageState extends State<FirstPage> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: ConstrainedBox(
-                                      constraints: BoxConstraints.expand(width: consts.maxUsernameLength * 18),
+                                      constraints: const BoxConstraints.expand(width: consts.maxUsernameLength * 18),
                                       child: TextField(
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
@@ -205,7 +205,7 @@ class _FirstPageState extends State<FirstPage> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: ConstrainedBox(
-                                      constraints: BoxConstraints.expand(width: consts.maxEmailLength * 18),
+                                      constraints: const BoxConstraints.expand(width: consts.maxEmailLength * 18),
                                       child: TextField(
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
@@ -254,7 +254,7 @@ class _FirstPageState extends State<FirstPage> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: ConstrainedBox(
-                                      constraints: BoxConstraints.expand(width: consts.maxPasswordLength * 18),
+                                      constraints: const BoxConstraints.expand(width: consts.maxPasswordLength * 18),
                                       child: TextField(
                                         obscureText: obscureBool,
                                         style: const TextStyle(

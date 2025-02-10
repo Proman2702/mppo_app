@@ -101,7 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 )),
             title: const Padding(
               padding: EdgeInsets.only(left: 0.0),
-              child: const Text('Настройки',
+              child: Text('Настройки',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Nunito',

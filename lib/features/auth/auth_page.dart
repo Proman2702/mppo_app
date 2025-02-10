@@ -40,7 +40,7 @@ class _AuthPageState extends State<AuthPage> {
         log(user[1].emailVerified.toString());
         log("Успешный вход");
       } else {
-        showModalBottomSheet(context: context, builder: (BuildContext context) => AuthDenySheet(type: "verify"));
+        showModalBottomSheet(context: context, builder: (BuildContext context) => const AuthDenySheet(type: "verify"));
       }
     } else if (user[0] == 1) {
       log("Ошибка ${user[1]}");
@@ -64,7 +64,7 @@ class _AuthPageState extends State<AuthPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: 150),
-                    const SizedBox(
+                    SizedBox(
                       height: 65,
                       child: Text(
                         'SmartFridge',
@@ -257,7 +257,8 @@ class _AuthPageState extends State<AuthPage> {
                                   builder: (BuildContext context) => const AuthDenySheet(type: "none"));
                             } else if (username!.length < 4 || password!.length < 4) {
                               showModalBottomSheet(
-                                  context: context, builder: (BuildContext context) => AuthDenySheet(type: "length"));
+                                  context: context,
+                                  builder: (BuildContext context) => const AuthDenySheet(type: "length"));
                             } else {
                               log("Логин: $username, пароль: $password");
                               signIn(username!, password!);

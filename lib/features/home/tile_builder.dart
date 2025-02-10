@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
@@ -43,13 +41,13 @@ class TileBuilder extends StatelessWidget {
           showDialog(context: context, builder: (context) => TileViewDialog(tile: tile, updater: updater));
         },
         child: Container(
-          padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
           height: 85,
           width: 340,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: Color(0xfff8f8f8),
-              boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 3)]),
+              color: const Color(0xfff8f8f8),
+              boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 4), blurRadius: 3)]),
           child: Row(
             children: [
               SvgPicture.asset(
@@ -57,9 +55,9 @@ class TileBuilder extends StatelessWidget {
                 height: 40,
                 width: 40,
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               Container(height: 60, width: 2, color: Color(CustomColors.shadow)),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,7 +67,7 @@ class TileBuilder extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Text(
                         jsonDecode(tile[0])['productName'],
-                        style: TextStyle(color: Color(0xff32E474), fontSize: 18, fontWeight: FontWeight.bold),
+                        style: const TextStyle(color: Color(0xff32E474), fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -79,12 +77,12 @@ class TileBuilder extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Text(
                         jsonDecode(tile[0])['productType'],
-                        style:
-                            TextStyle(color: Color(0xff38CACF), fontSize: 13, fontWeight: FontWeight.bold, height: 1),
+                        style: const TextStyle(
+                            color: Color(0xff38CACF), fontSize: 13, fontWeight: FontWeight.bold, height: 1),
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   SizedBox(
                     width: 240,
                     child: Row(
@@ -92,11 +90,11 @@ class TileBuilder extends StatelessWidget {
                       children: [
                         Container(
                             alignment: Alignment.center,
-                            padding: EdgeInsets.only(left: 5, right: 5),
+                            padding: const EdgeInsets.only(left: 5, right: 5),
                             height: 23,
                             width: 60,
                             decoration:
-                                BoxDecoration(color: Color(0xFFEAEAEA), borderRadius: BorderRadius.circular(10)),
+                                BoxDecoration(color: const Color(0xFFEAEAEA), borderRadius: BorderRadius.circular(10)),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
@@ -105,7 +103,7 @@ class TileBuilder extends StatelessWidget {
                                     color: Color(CustomColors.bright), fontSize: 13, fontWeight: FontWeight.bold),
                               ),
                             )),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           dateNontifier(tile),
                           style: TextStyle(

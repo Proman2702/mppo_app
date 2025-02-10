@@ -250,7 +250,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                   Container(
                     height: 45,
                     width: 300,
-                    padding: EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: Color(CustomColors.main), width: 5),
@@ -265,7 +265,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                       }),
                       decoration: InputDecoration(
                         suffixIcon: PopupMenuButton<String>(
-                          icon: Icon(Icons.arrow_drop_down),
+                          icon: const Icon(Icons.arrow_drop_down),
                           onSelected: (String value) {
                             _controller.text = value;
                             productType = value;
@@ -273,7 +273,7 @@ class _GeneratorPageState extends State<GeneratorPage> {
                           itemBuilder: (BuildContext context) {
                             return consts.defaultTypes.map<PopupMenuItem<String>>((String value) {
                               return PopupMenuItem<String>(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 height: 5,
                                 value: value,
                                 child: Text(value),
@@ -282,11 +282,11 @@ class _GeneratorPageState extends State<GeneratorPage> {
                           },
                         ),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
-                        contentPadding: EdgeInsets.only(bottom: 10),
+                        contentPadding: const EdgeInsets.only(bottom: 10),
                         counterText: "",
                         border: InputBorder.none,
                         labelText: "...",
-                        labelStyle: TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
+                        labelStyle: const TextStyle(color: Colors.black12, fontSize: 20, fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),

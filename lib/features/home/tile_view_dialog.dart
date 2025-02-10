@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
 import 'package:mppo_app/etc/colors/gradients/background.dart';
@@ -16,8 +14,8 @@ class TileViewDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        contentPadding: EdgeInsets.all(20),
-        titlePadding: EdgeInsets.only(left: 20, right: 20, top: 20),
+        contentPadding: const EdgeInsets.all(20),
+        titlePadding: const EdgeInsets.only(left: 20, right: 20, top: 20),
         backgroundColor: Colors.white,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,12 +25,12 @@ class TileViewDialog extends StatelessWidget {
               width: 160,
               alignment: Alignment.center,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(CustomColors.main)),
-              child: Text(
+              child: const Text(
                 'О товаре',
                 style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
               onTap: () {
                 log('негрыааааа');
@@ -42,7 +40,7 @@ class TileViewDialog extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(CustomColors.main)),
-                child: Icon(
+                child: const Icon(
                   Icons.delete_forever,
                   color: Colors.white,
                   size: 30,
@@ -304,15 +302,15 @@ class TileViewDialog extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text(
-                    'Закрыть',
-                    style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, height: 1),
-                  ),
                   style: ElevatedButton.styleFrom(
                     shadowColor: Colors.transparent,
                     backgroundColor: Colors.transparent,
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     alignment: Alignment.center,
+                  ),
+                  child: const Text(
+                    'Закрыть',
+                    style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, height: 1),
                   ),
                 ),
               )

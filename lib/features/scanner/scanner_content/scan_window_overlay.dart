@@ -72,7 +72,7 @@ class ScanWindowOverlay extends StatelessWidget {
             borderStyle: PaintingStyle.stroke,
             borderWidth: 5.0,
             scanWindow: scanWindow,
-            color: Color.fromARGB(100, 255, 255, 255),
+            color: const Color.fromARGB(100, 255, 255, 255),
           ),
         );
       },

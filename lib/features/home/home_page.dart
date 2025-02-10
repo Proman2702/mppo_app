@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
@@ -60,7 +58,7 @@ class _HomePageState extends State<HomePage> {
 
   void checkValuePeriodically({bool? delete, List? tile}) async {
     while (dbGetter?.getUser() == null) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
 
     if (delete != null) {
@@ -134,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
             title: const Padding(
               padding: EdgeInsets.only(left: 0.0),
-              child: const Text('SmartFridge',
+              child: Text('SmartFridge',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Nunito',
@@ -212,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (BuildContext context) {
                         return consts.defaultTypes.map<PopupMenuItem<String>>((String value) {
                           return PopupMenuItem<String>(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             height: 5,
                             value: value,
                             child: Text(value),
@@ -223,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               tileItems != null
                   ? SingleChildScrollView(
                       child: SizedBox(
@@ -247,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     )
-                  : CircularProgressIndicator()
+                  : const CircularProgressIndicator()
             ],
           ),
         ),

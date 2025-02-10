@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:math' as math;
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mppo_app/etc/colors/colors.dart';
@@ -491,7 +489,7 @@ class NullBody extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
-                boxShadow: [const BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 5)]),
+                boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 5)]),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

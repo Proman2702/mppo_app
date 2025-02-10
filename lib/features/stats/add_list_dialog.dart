@@ -18,8 +18,8 @@ class _ListDialogState extends State<ListDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: EdgeInsets.all(20),
-      titlePadding: EdgeInsets.only(left: 20, right: 20, top: 20),
+      contentPadding: const EdgeInsets.all(20),
+      titlePadding: const EdgeInsets.only(left: 20, right: 20, top: 20),
       backgroundColor: Colors.white,
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,12 +29,12 @@ class _ListDialogState extends State<ListDialog> {
             width: 160,
             alignment: Alignment.center,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Color(CustomColors.main)),
-            child: Text(
+            child: const Text(
               'Добавить',
               style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           GestureDetector(
             onTap: () {
               Navigator.of(context).pop();
@@ -102,7 +102,7 @@ class _ListDialogState extends State<ListDialog> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 1000),
+                      constraints: const BoxConstraints(maxWidth: 1000),
                       child: TextField(
                         style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black87),
                         maxLength: 80,
@@ -139,15 +139,15 @@ class _ListDialogState extends State<ListDialog> {
                       context: context, builder: (BuildContext context) => const GeneratorDenySheet(type: 'none'));
                 }
               },
-              child: Text(
-                'Сохранить',
-                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, height: 1),
-              ),
               style: ElevatedButton.styleFrom(
                 shadowColor: Colors.transparent,
                 backgroundColor: Colors.transparent,
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 alignment: Alignment.center,
+              ),
+              child: const Text(
+                'Сохранить',
+                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, height: 1),
               ),
             ),
           )
