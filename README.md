@@ -1,6 +1,6 @@
 <div align="center" style="text-align: center;">
   
-![Логотип Note AI](assets/images/LMNDGaJR_t4.jpg)
+![Холодильник](assets/images/LMNDGaJR_t4.jpg)
 
 **SmartFridge: QR Control & IoT Sync** - это приложение для инвентаризации "Холодильника" в кафе, разработанное в рамках московской предпрофессиональной олимпиады
 
