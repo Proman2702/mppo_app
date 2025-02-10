@@ -84,7 +84,7 @@ class TileBuilder extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
-                    width: 240,
+                    width: 230,
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
