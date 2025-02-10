@@ -1,6 +1,6 @@
 <div align="center" style="text-align: center;">
   
-![Холодильник](assets/images/LMNDGaJR_t4.jpg)
+![Холодильник](https://static.auction.ru/offer_images/cmn8/2019/07/11/02/big/P/pIRcJp6YedL/vintazhnyj_kholodilnik_zil_moskva_60_e_kkh_240_sssr.jpg)
 
 **SmartFridge: QR Control & IoT Sync** - это приложение для инвентаризации "Холодильника" в кафе, разработанное в рамках московской предпрофессиональной олимпиады
 
