@@ -51,7 +51,7 @@ class TileBuilder extends StatelessWidget {
           child: Row(
             children: [
               SvgPicture.asset(
-                consts.typesIcons['${jsonDecode(tile[0])['productType']}']!,
+                consts.typesIcons['${jsonDecode(tile[0])['productType']}'] ?? consts.typesIcons['Прочее']!,
                 height: 40,
                 width: 40,
               ),

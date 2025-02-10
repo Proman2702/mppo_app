@@ -87,12 +87,12 @@ class AuthService {
   // Удаление аккаунта
   // Входные данные: е-маил, текущий пароль
   // Выходные данные: либо [0], либо [1 и описание ошибки]
-  Future<List> deleteAccount(String email, String password) async {
+  Future<List> deleteAccount(String email, String password, bool check) async {
     try {
       User user = _auth.currentUser!;
       AuthCredential cred = EmailAuthProvider.credential(email: email, password: password);
       final result = await user.reauthenticateWithCredential(cred);
-      await result.user!.delete();
+      if (check) await result.user!.delete();
       return [0];
     } on FirebaseAuthException catch (e) {
       log("Ошибка $e");

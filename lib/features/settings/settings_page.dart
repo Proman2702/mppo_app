@@ -43,16 +43,16 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void signOut() async {
     await auth.signOut();
-    Navigator.of(context).pushReplacementNamed("/");
+    Navigator.of(context).pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
   }
 
   void deleteAccount(email, password) async {
-    final res = await auth.deleteAccount(email, password);
+    final res = await auth.deleteAccount(email, password, false);
 
     if (res[0] == 0) {
       await database.deleteUser(email);
 
-      Navigator.of(context).pushReplacementNamed("/");
+      await auth.deleteAccount(email, password, true);
     } else {
       showModalBottomSheet(context: context, builder: (BuildContext context) => AuthDenySheet(type: res[1]));
     }
@@ -340,7 +340,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 } else {
                   log("$user");
                   deleteAccount(user!.email, password!);
-                  Navigator.pop(context);
+                  Navigator.of(context).pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
                 }
               },
               child: const Text("Удалить",

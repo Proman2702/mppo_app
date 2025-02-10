@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -82,7 +81,6 @@ class _StatsPageState extends State<StatsPage> {
     int addedCount = 0;
     int deletedCount = 0;
     for (var entry in items) {
-      log("$entry");
       DateTime entryDate = DateTime.parse(formatDate(entry["date"]));
       if (entryDate.isAfter(dateFrom.subtract(const Duration(days: 1))) &&
           entryDate.isBefore(dateTo.add(const Duration(days: 1)))) {
@@ -117,6 +115,11 @@ class _StatsPageState extends State<StatsPage> {
 
   @override
   Widget build(BuildContext context) {
+    Map? result;
+    if (historyItems != null) {
+      result = filterItems(historyItems!);
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -247,17 +250,22 @@ class _StatsPageState extends State<StatsPage> {
                         _pickDate('from');
                       },
                       icon: Icon(Icons.calendar_month, color: Color(CustomColors.bright))),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 30,
-                    width: 110,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 3)]),
-                    child: Text(
-                      '${dateFrom.day < 10 ? '0${dateFrom.day}' : dateFrom.day}.${dateFrom.month < 10 ? '0${dateFrom.month}' : dateFrom.month}.${dateFrom.year}',
-                      style: TextStyle(color: Color(CustomColors.bright), fontWeight: FontWeight.bold, fontSize: 16),
+                  GestureDetector(
+                    onTap: () async {
+                      _pickDate('from');
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 30,
+                      width: 110,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 3)]),
+                      child: Text(
+                        '${dateFrom.day < 10 ? '0${dateFrom.day}' : dateFrom.day}.${dateFrom.month < 10 ? '0${dateFrom.month}' : dateFrom.month}.${dateFrom.year}',
+                        style: TextStyle(color: Color(CustomColors.bright), fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -269,17 +277,23 @@ class _StatsPageState extends State<StatsPage> {
                         Icons.calendar_month,
                         color: Color(CustomColors.bright),
                       )),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 30,
-                    width: 110,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 3)]),
-                    child: Text(
-                        '${dateTo.day < 10 ? '0${dateTo.day}' : dateTo.day}.${dateTo.month < 10 ? '0${dateTo.month}' : dateTo.month}.${dateTo.year}',
-                        style: TextStyle(color: Color(CustomColors.bright), fontWeight: FontWeight.bold, fontSize: 16)),
+                  GestureDetector(
+                    onTap: () async {
+                      _pickDate('to');
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 30,
+                      width: 110,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [BoxShadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 3)]),
+                      child: Text(
+                          '${dateTo.day < 10 ? '0${dateTo.day}' : dateTo.day}.${dateTo.month < 10 ? '0${dateTo.month}' : dateTo.month}.${dateTo.year}',
+                          style:
+                              TextStyle(color: Color(CustomColors.bright), fontWeight: FontWeight.bold, fontSize: 16)),
+                    ),
                   ),
                   const SizedBox(width: 25)
                 ],
@@ -292,17 +306,15 @@ class _StatsPageState extends State<StatsPage> {
                           height: MediaQuery.sizeOf(context).height / 1.5,
                           child: BarChart(BarChartData(
                               barGroups: [
-                                BarChartGroupData(x: 0, barRods: [
-                                  BarChartRodData(
-                                      toY: filterItems(historyItems!)["added"]!.toDouble(), color: Colors.green)
-                                ]),
-                                BarChartGroupData(x: 1, barRods: [
-                                  BarChartRodData(
-                                      toY: filterItems(historyItems!)["deleted"]!.toDouble(), color: Colors.red)
-                                ]),
+                                BarChartGroupData(
+                                    x: 0,
+                                    barRods: [BarChartRodData(toY: result!["added"]!.toDouble(), color: Colors.green)]),
+                                BarChartGroupData(
+                                    x: 1,
+                                    barRods: [BarChartRodData(toY: result["deleted"]!.toDouble(), color: Colors.red)]),
                                 BarChartGroupData(x: 2, barRods: [
                                   BarChartRodData(
-                                    toY: filterItems(historyItems!)["difference"]!.toDouble(),
+                                    toY: result["difference"]!.toDouble(),
                                     color: Colors.blue,
                                   )
                                 ]),
@@ -315,9 +327,9 @@ class _StatsPageState extends State<StatsPage> {
                                     sideTitles: SideTitles(
                                         showTitles: true,
                                         getTitlesWidget: (value, _) {
-                                          if (value == filterItems(historyItems!)["added"]!.toDouble() ||
-                                              value == filterItems(historyItems!)["deleted"]!.toDouble() ||
-                                              value == filterItems(historyItems!)["difference"]!.toDouble()) {
+                                          if (value == result!["added"]!.toDouble() ||
+                                              value == result["deleted"]!.toDouble() ||
+                                              value == result["difference"]!.toDouble()) {
                                             return Padding(
                                               padding: const EdgeInsets.only(right: 5.0),
                                               child: Text(
