@@ -290,8 +290,7 @@ class _StatsPageState extends State<StatsPage> {
               ),
               SizedBox(height: 25),
               historyItems != null
-                  ? Container(
-                      alignment: Alignment.centerRight,
+                  ? SizedBox(
                       width: 360,
                       height: MediaQuery.sizeOf(context).height / 1.5,
                       child: BarChart(BarChartData(

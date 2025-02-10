@@ -139,7 +139,7 @@ class _AuthPageState extends State<AuthPage> {
                                   child: TextField(
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w700, fontSize: 19, color: Colors.black87),
-                                    maxLength: 30,
+                                    maxLength: 35,
                                     onChanged: (value) => setState(() {
                                       username = value;
                                     }),

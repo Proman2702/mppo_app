@@ -1,6 +1,6 @@
 // Класс для настроек полей ввода авторизации
 const int maxPasswordLength = 20;
-const int maxEmailLength = 30;
+const int maxEmailLength = 35;
 const int maxUsernameLength = 20;
 const List<String> defaultTypes = [
   'Выпечка',
