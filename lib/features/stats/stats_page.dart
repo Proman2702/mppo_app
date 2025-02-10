@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -47,14 +48,14 @@ class _StatsPageState extends State<StatsPage> {
       await Future.delayed(Duration(milliseconds: 100));
     }
 
-    historyItems = dbGetter!.getUser()!.items.map((element) => jsonDecode(element)).toList();
+    historyItems = dbGetter!.getUser()!.history.map((element) => jsonDecode(element)).toList();
     setState(() {});
   }
 
   Future<void> _pickDate(String period) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: period == 'from' ? dateFrom : dateTo,
       firstDate: period == 'from' ? DateTime(2025) : dateFrom,
       lastDate: period == 'from' ? dateTo : DateTime.now(),
     );
@@ -69,26 +70,38 @@ class _StatsPageState extends State<StatsPage> {
     }
   }
 
-  Map<String, int> filterItems() {
+  Map<String, int> filterItems(List items) {
     String formatDate(String input) {
       List<String> parts = input.split('-');
       if (parts.length == 3) {
-        return '${parts[2]}-${parts[1]}-${parts[0]}';
+        return '${parts[2]}-${int.parse(parts[1]) < 10 ? '0${parts[1]}' : parts[1]}-${int.parse(parts[0]) < 10 ? '0${parts[0]}' : parts[0]}';
       }
       return input;
     }
 
     int addedCount = 0;
     int deletedCount = 0;
-
-    for (var entry in historyItems!) {
-      DateTime entryDate = DateTime.parse(entry["date"]!);
+    for (var entry in items) {
+      log("$entry");
+      DateTime entryDate = DateTime.parse(formatDate(entry["date"]));
       if (entryDate.isAfter(dateFrom.subtract(Duration(days: 1))) &&
           entryDate.isBefore(dateTo.add(Duration(days: 1)))) {
         if (entry["type"] == "added") {
-          addedCount++;
+          if (_controller.text == '' || _controller.text == 'Всего')
+            addedCount++;
+          else {
+            if (_controller.text == entry["productType"]) {
+              addedCount++;
+            }
+          }
         } else if (entry["type"] == "deleted") {
-          deletedCount++;
+          if (_controller.text == '' || _controller.text == 'Всего')
+            deletedCount++;
+          else {
+            if (_controller.text == entry["productType"]) {
+              deletedCount++;
+            }
+          }
         }
       }
     }
@@ -104,7 +117,9 @@ class _StatsPageState extends State<StatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, int> result = filterItems();
+    if (historyItems != null) {
+      var result = filterItems(historyItems!);
+    }
 
     return Scaffold(
       key: _scaffoldKey,
@@ -273,38 +288,106 @@ class _StatsPageState extends State<StatsPage> {
                   SizedBox(width: 25)
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 25),
               historyItems != null
-                  ? BarChart(BarChartData(
-                      barGroups: [
-                          BarChartGroupData(
-                              x: 0, barRods: [BarChartRodData(toY: result["added"]!.toDouble(), color: Colors.green)]),
-                          BarChartGroupData(
-                              x: 1, barRods: [BarChartRodData(toY: result["deleted"]!.toDouble(), color: Colors.red)]),
-                          BarChartGroupData(
-                              x: 2,
-                              barRods: [BarChartRodData(toY: result["difference"]!.toDouble(), color: Colors.blue)]),
-                        ],
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, _) {
-                              switch (value.toInt()) {
-                                case 0:
-                                  return Text("Added");
-                                case 1:
-                                  return Text("Deleted");
-                                case 2:
-                                  return Text("Difference");
-                                default:
-                                  return Text("");
-                              }
-                            },
-                          ),
-                        ),
-                      )))
+                  ? Container(
+                      alignment: Alignment.centerRight,
+                      width: 360,
+                      height: MediaQuery.sizeOf(context).height / 1.5,
+                      child: BarChart(BarChartData(
+                          barGroups: [
+                            BarChartGroupData(x: 0, barRods: [
+                              BarChartRodData(toY: filterItems(historyItems!)["added"]!.toDouble(), color: Colors.green)
+                            ]),
+                            BarChartGroupData(x: 1, barRods: [
+                              BarChartRodData(toY: filterItems(historyItems!)["deleted"]!.toDouble(), color: Colors.red)
+                            ]),
+                            BarChartGroupData(x: 2, barRods: [
+                              BarChartRodData(
+                                toY: filterItems(historyItems!)["difference"]!.toDouble(),
+                                color: Colors.blue,
+                              )
+                            ]),
+                          ],
+                          titlesData: FlTitlesData(
+                            topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false), // Убираем цифры сверху (ось X)
+                            ),
+                            leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                    showTitles: true,
+                                    getTitlesWidget: (value, _) {
+                                      if (value == filterItems(historyItems!)["added"]!.toDouble() ||
+                                          value == filterItems(historyItems!)["deleted"]!.toDouble() ||
+                                          value == filterItems(historyItems!)["difference"]!.toDouble()) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(right: 5.0),
+                                          child: Text(
+                                            '${value.toInt().toString()}',
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                          ),
+                                        ); // Показываем только нужные метки
+                                      }
+                                      return Container(); // Скрываем остальные
+                                    },
+                                    reservedSize: 30)),
+                            rightTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                              interval: historyItems!.length / (historyItems!.length / 3).toDouble(),
+                              reservedSize: 30,
+                              showTitles: true,
+                            )),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                interval: 10,
+                                reservedSize: 100,
+                                showTitles: true,
+                                getTitlesWidget: (value, _) {
+                                  switch (value.toInt()) {
+                                    case 0:
+                                      return Container(
+                                          alignment: Alignment.topLeft,
+                                          height: 100,
+                                          width: 130,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(right: 40),
+                                            child: Text(
+                                              "Добавлено продуктов",
+                                            ),
+                                          ));
+                                    case 1:
+                                      return Container(
+                                          alignment: Alignment.topCenter,
+                                          height: 100,
+                                          width: 130,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(),
+                                            child: Text(
+                                              "Удалено продуктов",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ));
+                                    case 2:
+                                      return Container(
+                                          alignment: Alignment.topRight,
+                                          height: 100,
+                                          width: 140,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 40),
+                                            child: Text(
+                                              "Продуктов в наличии",
+                                              textAlign: TextAlign.end,
+                                            ),
+                                          ));
+                                    default:
+                                      return Text("");
+                                  }
+                                },
+                              ),
+                            ),
+                          ))),
+                    )
                   : CircularProgressIndicator()
             ],
           ),
